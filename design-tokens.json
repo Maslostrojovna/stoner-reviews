@@ -1,0 +1,224 @@
+{
+  "$schemaDescription": "Extraction record with value, status and source; not a claim of recovered production code.",
+  "brand": "Stoner Reviews",
+  "version": "1.1.0",
+  "sourceScope": "Original root-level files in parent BrandKit folder only; no nested folders or archive contents. Generated artifact paths are relative to this BRAND folder.",
+  "statusDefinitions": {
+    "confirmed-intent": "Explicitly labelled in overview and/or root prompt; rendered pixels may differ.",
+    "measured-raster": "Measured from supplied PNG; flattened, textured raster evidence.",
+    "estimated": "Visual measurement or implementation mapping, requires source-file verification.",
+    "unresolved": "Not established; value is null.",
+    "confirmed-user": "Explicitly confirmed by the user; supersedes conflicting historical reference values."
+  },
+  "color": {
+    "midnight": {
+      "value": "#081113",
+      "status": "confirmed-intent",
+      "source": "stoner-reviews-brand-kit-v2-wizard.png panel 05; brand-kit-v2-wizard-prompt.txt"
+    },
+    "deep-teal": {
+      "value": "#002A2F",
+      "status": "confirmed-user",
+      "source": "User confirmation in this chat on 12 October 2026; matches midnight-screening-room-teal.png sampled background",
+      "note": "Canonical Deep Teal. Supersedes the older overview/prompt label; originals remain historical references."
+    },
+    "sage": {
+      "value": "#83A58B",
+      "status": "confirmed-intent",
+      "source": "stoner-reviews-brand-kit-v2-wizard.png panel 05; brand-kit-v2-wizard-prompt.txt"
+    },
+    "cream": {
+      "value": "#F4DFBA",
+      "status": "confirmed-intent",
+      "source": "stoner-reviews-brand-kit-v2-wizard.png panel 05; brand-kit-v2-wizard-prompt.txt"
+    },
+    "apricot": {
+      "value": "#FF9B57",
+      "status": "confirmed-intent",
+      "source": "stoner-reviews-brand-kit-v2-wizard.png panel 05; brand-kit-v2-wizard-prompt.txt"
+    },
+    "ember": {
+      "value": "#D85B31",
+      "status": "confirmed-intent",
+      "source": "stoner-reviews-brand-kit-v2-wizard.png panel 05; brand-kit-v2-wizard-prompt.txt"
+    },
+    "sunset": {
+      "value": "#C94736",
+      "status": "confirmed-intent",
+      "source": "stoner-reviews-brand-kit-v2-wizard.png panel 05; brand-kit-v2-wizard-prompt.txt"
+    }
+  },
+  "rasterVariants": {
+    "website-teal-background": {
+      "value": "#002A2F",
+      "status": "measured-raster",
+      "source": "midnight-screening-room-teal.png; median crop x=11..33 y=594..695",
+      "note": "This measured background is now the user-confirmed canonical Deep Teal; reference color.deep-teal for production use."
+    },
+    "website-dark-background": {
+      "value": "#00171A",
+      "status": "measured-raster",
+      "source": "midnight-screening-room-dark.png; same median crop",
+      "note": "Historical dark comparison background; not canonical Deep Teal."
+    },
+    "lettering-intent": {
+      "value": {
+        "background": "#072F34",
+        "cream": "#FFE6C5",
+        "underline": "#FFAA76"
+      },
+      "status": "confirmed-intent",
+      "source": "lettering-redraw-prompt.txt; exploratory, not core replacements"
+    }
+  },
+  "typography": {
+    "display": {
+      "value": "Recoleta Alt",
+      "status": "confirmed-intent",
+      "source": "Overview panel 06; authentic Recoleta Alt Bold font installed locally by user",
+      "note": "Local CSS loads Bold at weight 700. Original raster cut remains unverified; no webfont file distributed."
+    },
+    "support": {
+      "value": "Kollektif",
+      "status": "confirmed-intent",
+      "source": "Overview panel 06; raster interpretations, font files absent"
+    },
+    "displayWeight": {
+      "value": null,
+      "status": "unresolved",
+      "note": "Visually heavy; no verified numeric weight or font cut"
+    },
+    "supportWeight": {
+      "value": null,
+      "status": "unresolved",
+      "note": "Regular-looking text and heavier button labels; exact cuts unknown"
+    },
+    "logoLettering": {
+      "value": "Outlined lettering from overview panel 01",
+      "status": "confirmed-intent",
+      "source": "User selection of stoner-reviews-brand-kit-v2-wizard.png; raster-derived reconstruction in stoner-reviews-logo.svg",
+      "note": "Not a font; five redraw-board alternatives unused."
+    },
+    "displayLineHeight": {
+      "value": 0.95,
+      "status": "estimated",
+      "source": "Tightly stacked website headings and social titles"
+    },
+    "labelTracking": {
+      "value": "0.2em",
+      "status": "estimated",
+      "source": "Website uppercase navigation and eyebrow labels"
+    },
+    "localDisplayWeight": {
+      "value": 700,
+      "status": "confirmed-user",
+      "source": "Installed Recoleta Alt Bold.otf; OS/2 weight class 700",
+      "note": "Current local preview weight, not proof of original raster font cut."
+    },
+    "localDisplayFont": {
+      "value": "Recoleta Alt Bold",
+      "status": "confirmed-user",
+      "source": "Installed local font full name; PostScript name RecoletaAlt-Bold"
+    }
+  },
+  "geometry": {
+    "websiteInlineInset": {
+      "value": "4.2%",
+      "status": "estimated",
+      "source": "45px/1086px raster width"
+    },
+    "websiteColumnGap": {
+      "value": "1.5%",
+      "status": "estimated",
+      "source": "Approximately 16px/1086px"
+    },
+    "websiteHeroHeight": {
+      "value": "52vw",
+      "status": "estimated",
+      "source": "Hero ends near y=564 in 1086px-wide proposal"
+    },
+    "websiteFeatureColumns": {
+      "value": "63fr 34fr",
+      "status": "estimated",
+      "source": "Feature image approximately 627px, copy 338px, intervening gap approximately 33px"
+    },
+    "socialInset": {
+      "value": "3.5%",
+      "status": "estimated",
+      "source": "Approximately 35\u201350px in 1254px covers"
+    },
+    "socialLogoWidthRange": {
+      "value": [
+        "35%",
+        "43%"
+      ],
+      "status": "estimated",
+      "source": "Five root-level social covers; not uniform"
+    },
+    "socialAspectRatio": {
+      "value": "1 / 1",
+      "status": "measured-raster",
+      "source": "All five social PNGs 1254\u00d71254"
+    },
+    "borderWidth": {
+      "value": "1px",
+      "status": "estimated",
+      "source": "Thin website borders at native raster scale"
+    },
+    "radius": {
+      "value": "0px",
+      "status": "estimated",
+      "source": "Website button/cards; overview panels separately rounded"
+    }
+  },
+  "unresolved": {
+    "approvedWebsiteVariant": null,
+    "approvedLetteringOption": "Overview panel 01, selected by user",
+    "minimumLogoSize": null,
+    "logoClearSpace": null,
+    "responsiveBreakpoints": null,
+    "interactionStates": null,
+    "exactFontFiles": null,
+    "motion": null
+  },
+  "logo": {
+    "primary": {
+      "value": "stoner-reviews-logo.svg",
+      "status": "estimated",
+      "source": "Overview panel 01, crop [36,88,496,313]",
+      "note": "Selected source confirmed; contour geometry estimated from raster. Genuine paths, transparent background, canonical Cream/Apricot."
+    },
+    "trialV2": {
+      "value": "stoner-reviews-logo-v2.svg",
+      "status": "estimated",
+      "source": "User attachment; overview lettering and underline retained",
+      "note": "Trial; raster-derived smoothed wizard contours; primary selection unchanged."
+    },
+    "wizardV2": {
+      "value": "stoner-reviews-wizard-v2.svg",
+      "status": "estimated",
+      "source": "Same attachment",
+      "note": "Deep Teal positive shapes, transparent negative spaces."
+    },
+    "trialV3": {
+      "value": "stoner-reviews-logo-v3.svg",
+      "status": "estimated",
+      "source": "Latest user attachment, large wizard; previous overview lettering and underline",
+      "note": "Raster-derived vector; Cream/Apricot. Latest requested reconstruction, not inferred final approval."
+    },
+    "wizardV3": {
+      "value": "stoner-reviews-wizard-v3.svg",
+      "status": "estimated",
+      "source": "Same attachment",
+      "note": "Black paths, transparent negative spaces, paired lens-reflection strokes retained."
+    }
+  },
+  "semantic": {
+    "brandBackground": {
+      "value": "#002A2F",
+      "status": "confirmed-user",
+      "reference": "color.deep-teal",
+      "source": "User confirmation; default for generated brand/logo background previews"
+    }
+  }
+}
