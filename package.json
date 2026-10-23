@@ -1,0 +1,12 @@
+{
+  "name": "stoner-reviews",
+  "private": true,
+  "scripts": {
+    "build": "wrangler pages functions build functions --outdir .wrangler/build/worker",
+    "dev": "wrangler pages dev Deployment/test-brand-reference-cloudflare/public --d1 DB=00000000-0000-0000-0000-000000000000 --persist-to .wrangler/state --compatibility-date 2026-10-12 --ip 127.0.0.1 --port 8788",
+    "deploy": "wrangler deploy --config Deployment/test-brand-reference-cloudflare/wrangler.json"
+  },
+  "devDependencies": {
+    "wrangler": "4.152.0"
+  }
+}

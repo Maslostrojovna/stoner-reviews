@@ -1,0 +1,14 @@
+{
+  "name": "stoner-reviews-local",
+  "compatibility_date": "2026-10-12",
+  "send_metrics": false,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "stoner-reviews-editorial-local",
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "database/migrations",
+      "remote": false
+    }
+  ]
+}

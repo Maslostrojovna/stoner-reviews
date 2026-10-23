@@ -1,0 +1,30 @@
+{
+  "name": "stoner-reviews",
+  "compatibility_date": "2026-10-12",
+  "assets": {
+    "directory": "./public",
+    "binding": "ASSETS",
+    "run_worker_first": [
+      "/api/*",
+      "/reviews",
+      "/reviews/"
+    ]
+  },
+  "routes": [
+    {
+      "pattern": "stoner.danimaslo.dev",
+      "custom_domain": true
+    }
+  ],
+  "account_id": "d4ff220754fe194748e128743cb69f01",
+  "main": "../../.wrangler/build/worker/index.js",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "stoner-reviews-prod",
+      "database_id": "7b2c5a8c-8e9b-4eff-9073-a05bc1fc6e27",
+      "migrations_dir": "../../database/migrations",
+      "remote": false
+    }
+  ]
+}
