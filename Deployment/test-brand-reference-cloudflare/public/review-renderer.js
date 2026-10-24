@@ -7,6 +7,7 @@ const dimensions = [
 // Reuse existing artwork. The API has no artwork field yet.
 const artwork = new Map([
   ["fear-and-loathing-in-las-vegas-1998", "/references/fear-and-loathing.png"],
+  ["coherence-2013", "/posters/coherence-2013.svg"],
 ]);
 
 function escapeHTML(value) {
@@ -15,12 +16,17 @@ function escapeHTML(value) {
   })[character]);
 }
 
+function renderInline(value) {
+  // Escape first: emphasis never enables raw HTML from review text.
+  return escapeHTML(value).replace(/\*([^*\n]+)\*/g, "<em>$1</em>");
+}
+
 // Current reviews use Markdown headings and paragraphs. Escape all source text;
 // raw HTML is never interpreted, including when rendering on the server.
 function renderBody(markdown) {
   return markdown.trim().split(/\r?\n\s*\r?\n/).map(block => {
     const heading = block.match(/^#{1,6}\s+(.+)$/);
-    return heading ? `<h3>${escapeHTML(heading[1])}</h3>` : `<p>${escapeHTML(block)}</p>`;
+    return heading ? `<h3>${renderInline(heading[1])}</h3>` : `<p>${renderInline(block)}</p>`;
   }).join("");
 }
 
@@ -45,6 +51,7 @@ function renderCard(review) {
       </div>
     </div>
     ${review.verdict ? `<p class="review-verdict">${escapeHTML(review.verdict)}</p>` : ""}
+    ${Number.isInteger(review.overall) && review.overall >= 1 && review.overall <= 5 ? `<p class="review-overall">Overall: <strong>${review.overall}/5</strong></p>` : ""}
     ${ratings ? `<dl class="ratings">${ratings}</dl>` : ""}
     ${review.body_md ? `<details>
       <summary><span class="open-label">Read review</span><span class="close-label">Close review</span></summary>

@@ -1,0 +1,6 @@
+Built-in image_gen generation, 2026-10-24.
+Style reference: references/coherence.png.
+
+New square vintage screenprinted cinema poster for Coherence (2013). Repeating suburban dinner parties in branching parallel realities under a passing comet; deep teal, cream, apricot, sage and coral. Quiet upper-left sky reserved for exact approved V7 vector logo. Large cream rounded serif title COHERENCE. Tagline: An infinite number of ways for dinner to go wrong. No generated brand logo, ratings, cannabis imagery or watermark.
+
+The generated bitmap is preserved as coherence-2013-art.png. The final SVG embeds it without pixel changes and overlays public/logos/stoner-reviews-v7-transparent.svg at (30,30), 450x220 on the 1254-square canvas.
