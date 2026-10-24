@@ -9,7 +9,7 @@ export async function onRequest({ request, env }) {
 
   try {
     const { results } = await env.DB.prepare(`
-      SELECT id, slug, movie_slug, movie_title, release_year,
+      SELECT id, slug, movie_slug, movie_title, release_year, runtime_minutes,
              tagline, verdict, body_md, why_watch_high_md,
              fun, action, mind_blowing, smart, feels, overall,
              created_at, updated_at

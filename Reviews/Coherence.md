@@ -1,5 +1,7 @@
 # Coherence (2013)
 
+**Watch time:** 1h 29m
+
 *An infinite number of ways for dinner to go wrong.*
 
 ## Short verdict

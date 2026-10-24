@@ -1,5 +1,8 @@
 
 # Fear and Loathing in Las Vegas (1998)
+
+**Watch time:** 1h 58m
+
 *Come for the reptiles. Stay for the revelations.*
 
 ## Short verdict

@@ -165,3 +165,17 @@ The response includes every review paragraph and the “Why watch it high?” he
 Server-side database failures return HTTP 503 rather than an indexable empty success
 page. There are no bot-specific content rules or indexing exclusions on this page.
 Localhost is for development; public crawling requires a future deployment.
+
+## Watch times and A Complete Unknown — 2026-10-24
+
+Migration `0002_add_runtime_minutes.sql` adds nullable positive-integer
+`runtime_minutes`. Apply migrations before deploying the updated API, which
+returns this field alongside the existing data. The shared renderer displays it
+as watch time under the title and omits it when unknown.
+
+Import the new approved review after migrations with `database/a-complete-unknown.sql`.
+Run `database/runtime-backfill.sql` after the original seed and Coherence import
+to fill missing runtimes. Existing prose, scores and assigned runtimes are preserved.
+A Complete Unknown is 141 minutes (Daniel); Coherence 89 (SFFILM); Fear and Loathing
+118 (BFI). Sources, verification and commands are in
+`UNKNOWN-AND-RUNTIMES-2026-10-24.md`.

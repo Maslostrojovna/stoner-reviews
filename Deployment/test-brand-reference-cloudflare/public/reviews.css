@@ -22,6 +22,7 @@ h1 { margin: 0; font-size: clamp(36px, 6vw, 56px); text-wrap: balance; }
 .review-year { margin: 0 0 8px; font-size: 14px; }
 .review-title { margin: 0; font-size: clamp(26px, 4vw, 38px); line-height: 1.12; text-wrap: balance; overflow-wrap: anywhere; }
 .review-tagline { margin: 14px 0 0; font-style: italic; }
+.review-watch-time { margin: 10px 0 0; font-size: 14px; }
 .review-verdict { margin: 24px 0; max-width: 72ch; }
 .ratings { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 0 0 24px; padding-top: 20px; border-top: var(--sr-rule); text-align: center; }
 .rating dt { font-size: 12px; }

@@ -8,6 +8,7 @@ const dimensions = [
 const artwork = new Map([
   ["fear-and-loathing-in-las-vegas-1998", "/references/fear-and-loathing.png"],
   ["coherence-2013", "/posters/coherence-2013.svg"],
+  ["a-complete-unknown-2024", "/posters/a-complete-unknown-2024.svg"],
 ]);
 
 function escapeHTML(value) {
@@ -32,6 +33,10 @@ function renderBody(markdown) {
 
 function renderCard(review) {
   const image = artwork.get(review.movie_slug);
+  const runtime = review.runtime_minutes;
+  const watchTime = Number.isInteger(runtime) && runtime > 0
+    ? [Math.floor(runtime / 60) ? `${Math.floor(runtime / 60)}h` : "", runtime % 60 ? `${runtime % 60}m` : ""].filter(Boolean).join(" ")
+    : "";
   const ratings = dimensions.map(([key, label]) => {
     const score = review[key];
     if (!Number.isInteger(score) || score < 1 || score > 5) return "";
@@ -47,6 +52,7 @@ function renderCard(review) {
       <div class="review-heading">
         ${review.release_year != null ? `<p class="review-year">${escapeHTML(review.release_year)}</p>` : ""}
         <h2 class="review-title sr-display">${escapeHTML(review.movie_title)}</h2>
+        ${watchTime ? `<p class="review-watch-time">Watch time: <time datetime="PT${runtime}M">${watchTime}</time></p>` : ""}
         ${review.tagline ? `<p class="review-tagline">${escapeHTML(review.tagline)}</p>` : ""}
       </div>
     </div>
