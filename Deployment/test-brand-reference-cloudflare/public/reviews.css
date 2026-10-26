@@ -23,8 +23,9 @@ h1 { margin: 0; font-size: clamp(36px, 6vw, 56px); text-wrap: balance; }
 .review-tagline { margin: 14px 0 0; font-style: italic; }
 .review-watch-time { margin: 10px 0 0; font-size: 14px; }
 .review-verdict { margin: 24px 0; max-width: 72ch; }
-.ratings { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 0 0 24px; padding-top: 20px; border-top: var(--sr-rule); text-align: center; }
+.ratings { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 12px; margin: 0 0 24px; padding-top: 20px; border-top: var(--sr-rule); text-align: center; }
 .rating dt { font-size: 12px; }
+.rating-note { display: block; margin-top: 3px; font-size: 11px; color: var(--sr-muted); }
 .rating dd { margin: 4px 0 0; font-variant-numeric: tabular-nums; }
 .rating-value { font-size: 22px; font-weight: 700; color: var(--sr-accent); }
 .rating-dots { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
@@ -50,7 +51,7 @@ details[open] .close-label { display: inline; }
   .review-art { width: 88px; height: auto; }
   .review-title { font-size: 26px; }
   .review-tagline { font-size: 14px; }
-  .ratings { gap: 6px; }
+  .ratings { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 8px; }
   .rating dt { font-size: 11px; line-height: 1.4; min-height: 31px; overflow-wrap: anywhere; }
   .rating-dots { gap: 3px; }
   .rating-dots .sr-rating-dot { width: 7px; height: 7px; }

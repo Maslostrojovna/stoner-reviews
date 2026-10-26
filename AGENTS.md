@@ -67,11 +67,19 @@ instead of silently replacing them.
 - Store watch time in `runtime_minutes` as a positive integer, or NULL when unknown.
   Preserve user-supplied runtimes; verify missing runtimes against reliable film
   sources and record provenance. Include watch time in review Markdown and the API.
-- The public rating guide explains seven independent 1–5 ratings, including
-  Brain Effort (attention required, not quality). Current approved reviews and
-  the database still have six: Overall, Fun, Action, Mind-blowing, Smart, Feels.
-  Brain Effort is unassigned; never infer it or show invented values. Adding its
-  storage and editorial scores is separate work. NULL is permitted for missing data.
+- Seven independent 1–5 ratings: Overall, Fun, Action, Mind-blowing, Smart, Feels,
+  Brain Effort (attention required, not quality). Migration 0003 adds nullable
+  `brain_effort`; migration 0003 is now applied in production. The Wolf of Wall
+  Street and Predator: Badlands each have user-approved
+  Brain Effort 2; the original three reviews
+  remain NULL. Never infer or invent missing values. Publication needs explicit
+  approval for deployment. Both reviews are now stored in production D1; their
+  new artwork and API/renderer changes are included in the user-authorized complete app release.
+- `tmdb_id`, `imdb_id`, and `media_type` are stored by migration 0004, applied to
+  local and production D1 on 2026-10-26. All five films have verified IDs and
+  `media_type = 'movie'`; future series use `tv`. Preserve NULL until verified,
+  and never overwrite conflicting non-null IDs without checking the source.
+  See `database/MEDIA-IDENTIFIERS-2026-10-26.md` for the sourced mapping.
 - Overall is an independent editorial judgment. Never calculate, average,
   auto-populate, or infer it from the five dimensions. Preserve SQL constraints.
 - Do not invent editorial text, anecdotes, facts, or scores. Use approved source

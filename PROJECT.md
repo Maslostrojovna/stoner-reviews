@@ -24,9 +24,11 @@ approved current review data. Do not reuse its scores as ratings for other movie
 ## Rating model
 
 The public Stoner Scores guide now describes seven independent ratings from 1 to 5:
-the six stored fields below, plus Brain Effort (attention required, not quality).
-Current approved reviews have no Brain Effort values; its storage is not implemented
-in this task. Never invent or infer those values. NULL is allowed for missing data;
+the six original fields below, plus Brain Effort (attention required, not quality).
+Local migration 0003 now stores nullable `brain_effort`. The Wolf of Wall Street
+has the user-approved 2/5; earlier reviews remain NULL. Apply the migration to
+production with explicit approval before deploying the updated API. Never invent
+or infer missing values. NULL is allowed for missing data;
 published presentation omits missing values. Overall is never averaged or calculated
 from any other rating.
 
@@ -38,6 +40,7 @@ from any other rating.
 | `mind_blowing` | Mind-blowing | Blow my mind |
 | `smart` | Smart | Give me something to think about |
 | `feels` | Feels | Hit me in the feels |
+| `brain_effort` | Brain Effort | Attention required, not quality; nullable |
 
 ## Implemented architecture
 
@@ -326,18 +329,103 @@ previous metadata and asset hashes are preserved in ignored
 approved rollback: `c9a4e715-b64f-400c-89b1-22bc1efda63e` (domain bindings may need
 separate restoration). Earlier local-only notes are historical.
 
-## GitHub main source synchronization — 2026-10-26
+## GitHub main synchronized — 2026-10-26
 
-The user authorized updating GitHub main after the direct domain deployment. This
-commit reconciles the exact deployed website and application code onto remote main
-`cc9c53d`, preserving its approved editorial content, migrations and existing
-history. It includes the public upload allowlist, both domain bindings, old-host
-redirect, shared theme code, Scores page, and integration checks. Unrelated local
-notes, source drafts, private backups and credentials are excluded.
+User authorized updating GitHub main. Commit
+`eb429a65b073f2934b6bf55be88fca5a657945ba` was created on top of remote `cc9c53d`
+and pushed normally to main. It contains the deployed application, exact public
+assets, domain routing, upload boundary, checks and related documentation.
+Approved editorial data and unrelated local notes were left unchanged.
 
-Pushing this commit to main triggers the existing Cloudflare Workers Builds
-integration. That build should redeploy the same application; no database write
-is configured. Earlier warnings about main lacking this release are historical
-once this commit is on main. The primary local workspace remains on its older
-session branch with existing changes preserved; do not reset or push that branch
-over the updated main.
+The existing Cloudflare Workers Builds integration started automatically. Its
+status is recorded in deployment.json after completion. This resolves the earlier
+warning that GitHub main lacked the deployed release. The primary workspace stays
+on `codex/session-2026-10-23` with its existing uncommitted work preserved. Do not
+push this older session branch over main.
+
+GitHub-triggered Cloudflare build completed successfully. Its version
+`ea5f58b0-8d61-4a9b-8b57-6f46f339e466` is at 100% traffic. All 12 live HTTPS integration checks passed
+after that deployment. Both local and remote main now resolve to `eb429a6`.
+
+## The Wolf of Wall Street — local addition, 2026-10-26
+
+Added `Reviews/The_Wolf_of_Wall_Street.md` verbatim, runtime 180 minutes and scores
+Fun 5, Action 4, Mind-blowing 3, Smart 4, Feels 2, Brain Effort 2, Overall 5.
+Local migration 0003 adds nullable `brain_effort`; only Wolf has an assigned value,
+and all three existing records were verified unchanged. The API and renderer now
+return/show an available Brain Effort score with an “Attention required” note.
+
+The user asked to rework the artwork around the review. The finished cover depicts
+the broker’s charismatic office-party excess and the crawling-to-the-phone
+slapstick. Exact title/tagline and approved V7 vector logo are included. Source
+art, prompt, SVG and final square PNG are in `BrandKit/posters/`; only the finished
+SVG is served. Original artwork is preserved. Preview URL:
+`http://127.0.0.1:8788/reviews/the-wolf-of-wall-street/`.
+
+Build, deployment dry-run and 13 integration checks pass locally. Review/listing/
+home were checked at 1280, 390 and 320 pixels in both themes: images loaded, no
+horizontal overflow, and rating values align. The new note’s contrast is 8.18:1
+on Teal and 9.87:1 on Dark teal. Public allowlist: 20 files.
+
+NOT published, committed or pushed. Production still has the prior three reviews.
+Before publishing, obtain explicit authorization and apply production migration
+0003 BEFORE deploying the new API, then import the approved review and publish
+from current main. Do not push the older session branch over main. See
+`database/WOLF-2026-10-26.md` for exact data, checks and publication order.
+
+## Predator: Badlands — local addition, 2026-10-26
+
+Added `Reviews/Predator_Badlands.md` exactly as supplied, runtime 107 minutes, and
+independent scores Fun 3, Action 5, Mind-blowing 3, Smart 2, Feels 3, Brain Effort 2,
+Overall 4. `database/predator-badlands.sql` imports idempotently using local migration
+0003 already added for Wolf. All four earlier records were verified unchanged.
+
+Local URL: `/reviews/predator-badlands/`. The cover follows the actual review: glowing
+Yautja combat, hostile alien flora, chatty legless android Thia and baby monster Bud.
+Artwork, generation prompt, final square PNG and SVG composition are under
+`BrandKit/posters/predator-badlands-2025*`. The finished SVG is allowlisted for public
+use and overlaid with the exact approved V7 vector logo.
+
+NOT published, committed or pushed. Production still has three reviews; Wolf and
+Predator are local additions. Before publishing, obtain explicit authorization,
+apply production migration 0003 before deploying the updated API, and import both
+approved reviews. See `database/PREDATOR-BADLANDS-2026-10-26.md` for data and checks.
+
+## Production D1 identifiers and pending reviews published — 2026-10-26
+
+The user explicitly authorized adding `tmdb_id`, `imdb_id` and `media_type`, then
+publishing to D1. Production was exported to ignored
+`.local-backups/d1-identifiers-2026-10-26/production-before.sql` before changes.
+Applied migrations 0003 (Brain Effort) and 0004 (media identifiers) locally and in
+production; imported the approved Wolf and Predator reviews and backfilled all
+five records with verified TMDB/IMDb identifiers and `media_type = 'movie'`.
+
+Production was read back through Wrangler. All five rows match approved local
+prose, taglines, runtimes, independent ratings and IDs. The original three rows’
+editorial fields are unchanged; their Brain Effort remains NULL. Updated metadata
+sets updated_at without rewriting review text. No conflicting IDs were overwritten.
+All 15 local HTTP checks pass; in-memory checks validate constraints and repeat-safe
+backfill. Public API returns 200/five reviews and both new review URLs return 200
+with their complete initial HTML. Identifier sources and detailed verification:
+`database/MEDIA-IDENTIFIERS-2026-10-26.md`.
+
+This was database-only. No Worker deployment, Git commit or main push occurred.
+The deployed API still omits the new ID fields and Brain Effort; Wolf/Predator
+artwork is not in the deployed renderer yet. Those code/assets await separately
+authorized app publication from current main. Previous local-only/three-review
+notes describe the state before this authorized database change.
+
+## Complete app release — 2026-10-26
+
+The user authorized “deploy all” after the D1 publication. This release includes
+both approved reviews, final Wolf/Predator artwork, Brain Effort rendering, and
+API fields `tmdb_id`, `imdb_id`, `media_type` and `brain_effort`. Production D1
+already has migrations 0003/0004 and all five records; this code release does not
+rerun database imports. Earlier pending/local-only notes are historical.
+
+Prepared from current origin/main in an isolated release worktree, preserving the
+older dirty session checkout. Public asset guard passes with 21 files; compiled
+Worker passes all 15 HTTP checks on port 8791, including full server-rendered text,
+direct reloads, unknown-review 404, exact identifiers and both seven-score reviews.
+Publishing this commit to main triggers the existing Cloudflare Workers Build.
+Verify that build and repeat the HTTP checks against stoner.reviews after release.

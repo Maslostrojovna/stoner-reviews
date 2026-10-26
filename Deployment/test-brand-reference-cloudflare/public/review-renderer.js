@@ -1,7 +1,7 @@
 // Shared by the Pages Function and the browser so both return the same cards.
 const dimensions = [
   ["fun", "Fun"], ["action", "Action"], ["mind_blowing", "Mind-blowing"],
-  ["smart", "Smart"], ["feels", "Feels"],
+  ["smart", "Smart"], ["feels", "Feels"], ["brain_effort", "Brain Effort"],
 ];
 
 // Reuse existing artwork. The API has no artwork field yet.
@@ -9,6 +9,8 @@ const artwork = new Map([
   ["fear-and-loathing-in-las-vegas-1998", "/posters/fear-and-loathing-1998.png"],
   ["coherence-2013", "/posters/coherence-2013.svg"],
   ["a-complete-unknown-2024", "/posters/a-complete-unknown-2024.svg"],
+  ["the-wolf-of-wall-street-2013", "/posters/the-wolf-of-wall-street-2013.svg"],
+  ["predator-badlands-2025", "/posters/predator-badlands-2025.svg"],
 ]);
 
 function escapeHTML(value) {
@@ -46,7 +48,7 @@ export function renderReview(review, { detail = false } = {}) {
     const dots = Array.from({ length: 5 }, (_, index) =>
       `<span class="sr-rating-dot${index < score ? " sr-rating-dot--filled" : ""}"></span>`
     ).join("");
-    return `<div class="rating"><dt>${label}</dt><dd><span class="rating-value">${score}</span>/5<span class="rating-dots" aria-hidden="true">${dots}</span></dd></div>`;
+    return `<div class="rating"><dt>${label}</dt><dd><span class="rating-value">${score}</span>/5<span class="rating-dots" aria-hidden="true">${dots}</span>${key === "brain_effort" ? '<span class="rating-note">Attention required</span>' : ""}</dd></div>`;
   }).join("");
 
   return `<article class="review-card" id="${escapeHTML(review.slug)}">

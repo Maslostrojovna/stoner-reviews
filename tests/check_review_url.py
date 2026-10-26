@@ -1,7 +1,8 @@
 """HTTP integration checks against a running local Wrangler server (no browser JS).
 
 Run: python3 tests/check_review_url.py [http://127.0.0.1:8788]
-Requires the existing Fear and Loathing seed in local D1.
+Requires local migrations plus Fear and Loathing and Wolf imports in local D1.
+See database/WOLF-2026-10-26.md.
 """
 import json
 import re
@@ -31,6 +32,8 @@ def get(path, *, binary=False):
 
 
 class Document(HTMLParser):
+    blocks = {"article", "div", "p", "h1", "h2", "h3", "header", "footer", "main", "nav", "section", "dt", "dd", "li", "br"}
+
     def __init__(self, html):
         super().__init__(convert_charrefs=True)
         self.text = []
@@ -41,7 +44,14 @@ class Document(HTMLParser):
         self.text.append(text)
 
     def handle_starttag(self, tag, attrs):
-        self.elements.append((tag, dict(attrs)))
+        attributes = dict(attrs)
+        self.elements.append((tag, attributes))
+        if tag in self.blocks or "rating-note" in attributes.get("class", "").split():
+            self.text.append(" ")
+
+    def handle_endtag(self, tag):
+        if tag in self.blocks:
+            self.text.append(" ")
 
 
 def normalize(text):
@@ -58,7 +68,7 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertEqual(status, 200)
         self.assertIn("text/html", headers["Content-Type"])
         document = Document(html)
-        text = normalize(" ".join(document.text))
+        text = normalize("".join(document.text))
         for block in re.split(r"\n\s*\n", review["body_md"].strip()):
             plain = re.sub(r"^#{1,6}\s+", "", block).replace("*", "")
             self.assertIn(normalize(plain), text)
@@ -107,7 +117,7 @@ class ReviewURLChecks(unittest.TestCase):
         status, _, html = get("/")
         self.assertEqual(status, 200)
         document = Document(html)
-        text = normalize(" ".join(document.text))
+        text = normalize("".join(document.text))
         self.assertIn("What should I watch high tonight?", text)
         self.assertIn("An excellent question.", text)
         self.assertIn("The wonderful thing about weed is that it can make almost any film worth watching. But some films are particularly good company when you're high.", text)
@@ -150,7 +160,7 @@ class ReviewURLChecks(unittest.TestCase):
         status, _, html = get("/stoner-scores/")
         self.assertEqual(status, 200)
         document = Document(html)
-        text = normalize(" ".join(document.text))
+        text = normalize("".join(document.text))
         for label in ["Fun", "Action", "Mind-blowing", "Smart", "Feels", "Brain Effort", "Overall",
                       "Brain off", "Easy does it", "Pay attention", "Keep up", "Full CPU usage"]:
             self.assertIn(label, text)
@@ -181,7 +191,7 @@ class ReviewURLChecks(unittest.TestCase):
             with self.subTest(review=review["slug"]):
                 status, _, html = get(f'/reviews/{review["slug"]}/')
                 self.assertEqual(status, 200)
-                text = normalize(" ".join(Document(html).text))
+                text = normalize("".join(Document(html).text))
                 for block in re.split(r"\n\s*\n", review["body_md"].strip()):
                     self.assertIn(normalize(re.sub(r"^#{1,6}\s+", "", block).replace("*", "")), text)
                 self.assertIn(review["verdict"], text)
@@ -190,7 +200,63 @@ class ReviewURLChecks(unittest.TestCase):
                                      ("mind_blowing", "Mind-blowing"), ("smart", "Smart"), ("feels", "Feels")]:
                     if review[field] is not None:
                         self.assertRegex(text, re.escape(label) + r"\s*" + str(review[field]) + r"\s*/5")
-                self.assertNotIn("Brain Effort", text)
+                if review.get("brain_effort") is None:
+                    self.assertNotIn("Brain Effort", text)
+                else:
+                    self.assertRegex(text, r"Brain Effort\s*" + str(review["brain_effort"]) + r"\s*/5")
+
+    def test_wolf_review_has_approved_seven_scores(self):
+        status, _, api = get("/api/editorial-reviews")
+        self.assertEqual(status, 200)
+        reviews = json.loads(api)["editorial_reviews"]
+        wolf = next(review for review in reviews if review["slug"] == "the-wolf-of-wall-street")
+        self.assertEqual(wolf["runtime_minutes"], 180)
+        self.assertEqual(wolf["release_year"], 2013)
+        self.assertEqual(wolf["tagline"], "An awful person. Excellent company.")
+        self.assertEqual([wolf[key] for key in ["fun", "action", "mind_blowing", "smart", "feels", "brain_effort", "overall"]],
+                         [5, 4, 3, 4, 2, 2, 5])
+        for review in reviews:
+            if review["slug"] in ["fear-and-loathing-in-las-vegas", "coherence", "a-complete-unknown"]:
+                self.assertIsNone(review["brain_effort"])
+        status, _, html = get("/reviews/the-wolf-of-wall-street/")
+        self.assertEqual(status, 200)
+        self.assertIn("The Wolf of Wall Street (2013) review — Stoner Reviews", html)
+        self.assertIn('datetime="PT180M">3h</time>', html)
+        self.assertIn("Brain Effort", html)
+        self.assertIn("Attention required", html)
+        self.assertEqual(get("/reviews/the-wolf-of-wall-street/")[2], html)
+
+    def test_predator_review_has_approved_seven_scores(self):
+        status, _, api = get("/api/editorial-reviews")
+        self.assertEqual(status, 200)
+        review = next(r for r in json.loads(api)["editorial_reviews"] if r["slug"] == "predator-badlands")
+        self.assertEqual(review["runtime_minutes"], 107)
+        self.assertEqual(review["release_year"], 2025)
+        self.assertEqual(review["tagline"], "The Predator has friends now. Somehow.")
+        self.assertEqual([review[k] for k in ["fun", "action", "mind_blowing", "smart", "feels", "brain_effort", "overall"]],
+                         [3, 5, 3, 2, 3, 2, 4])
+        path = "/reviews/predator-badlands/"
+        status, _, html = get(path)
+        self.assertEqual(status, 200)
+        self.assertIn("Predator: Badlands (2025) review — Stoner Reviews", html)
+        self.assertIn('datetime="PT107M">1h 47m</time>', html)
+        self.assertEqual(get(path)[2], html)
+
+    def test_verified_media_identifiers(self):
+        status, _, api = get("/api/editorial-reviews")
+        self.assertEqual(status, 200)
+        expected = {
+            "fear-and-loathing-in-las-vegas": (1878, "tt0120669"),
+            "coherence": (220289, "tt2866360"),
+            "a-complete-unknown": (661539, "tt11563598"),
+            "the-wolf-of-wall-street": (106646, "tt0993846"),
+            "predator-badlands": (1242898, "tt31227572"),
+        }
+        reviews = {r["slug"]: r for r in json.loads(api)["editorial_reviews"]}
+        for slug, identifiers in expected.items():
+            with self.subTest(review=slug):
+                self.assertEqual((reviews[slug]["tmdb_id"], reviews[slug]["imdb_id"]), identifiers)
+                self.assertEqual(reviews[slug]["media_type"], "movie")
 
     def test_theme_bootstrap_runs_before_styles_and_body(self):
         for path in ["/", "/reviews/", "/stoner-scores/", PATH, "/missing-page/"]:

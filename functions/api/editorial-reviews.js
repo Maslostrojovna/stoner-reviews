@@ -10,8 +10,9 @@ export async function onRequest({ request, env }) {
   try {
     const { results } = await env.DB.prepare(`
       SELECT id, slug, movie_slug, movie_title, release_year, runtime_minutes,
+             tmdb_id, imdb_id, media_type,
              tagline, verdict, body_md, why_watch_high_md,
-             fun, action, mind_blowing, smart, feels, overall,
+             fun, action, mind_blowing, smart, feels, brain_effort, overall,
              created_at, updated_at
       FROM editorial_reviews
       ORDER BY created_at DESC, id DESC

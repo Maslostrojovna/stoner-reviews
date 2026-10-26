@@ -5,12 +5,12 @@
   "repository": "https://github.com/Maslostrojovna/stoner-reviews",
   "status": "deployed-https-verified",
   "url": "https://stoner.reviews/",
-  "cloudflareVersionId": "faa1cbce-67e5-458e-a327-21cb016a3614",
-  "previousCloudflareVersionId": "c9a4e715-b64f-400c-89b1-22bc1efda63e",
+  "cloudflareVersionId": "ea5f58b0-8d61-4a9b-8b57-6f46f339e466",
+  "previousCloudflareVersionId": "faa1cbce-67e5-458e-a327-21cb016a3614",
   "publishedDate": "2026-10-26",
   "publishedAtLocal": "2026-10-26T22:19:03+01:00",
   "timezone": "Europe/Prague",
-  "deploymentMethod": "npm run build; npm run deploy (direct Wrangler deployment from reviewed local working tree)",
+  "deploymentMethod": "GitHub main push → Cloudflare Workers Builds (npm run build; npm run deploy)",
   "source": {
     "branch": "codex/session-2026-10-23",
     "baseCommit": "7dafeda84c9c0654a76007e21bfb510147f2b933",
@@ -56,18 +56,71 @@
     "id": "7b2c5a8c-8e9b-4eff-9073-a05bc1fc6e27",
     "jurisdiction": "eu",
     "binding": "DB",
-    "editorialReviewCount": 3,
+    "editorialReviewCount": 5,
     "runtimeMinutes": {
-      "a-complete-unknown": 141,
+      "fear-and-loathing-in-las-vegas": 118,
       "coherence": 89,
-      "fear-and-loathing-in-las-vegas": 118
+      "a-complete-unknown": 141,
+      "the-wolf-of-wall-street": 180,
+      "predator-badlands": 107
+    },
+    "mediaIdentifiers": {
+      "fear-and-loathing-in-las-vegas": {
+        "tmdb_id": 1878,
+        "imdb_id": "tt0120669",
+        "media_type": "movie"
+      },
+      "coherence": {
+        "tmdb_id": 220289,
+        "imdb_id": "tt2866360",
+        "media_type": "movie"
+      },
+      "a-complete-unknown": {
+        "tmdb_id": 661539,
+        "imdb_id": "tt11563598",
+        "media_type": "movie"
+      },
+      "the-wolf-of-wall-street": {
+        "tmdb_id": 106646,
+        "imdb_id": "tt0993846",
+        "media_type": "movie"
+      },
+      "predator-badlands": {
+        "tmdb_id": 1242898,
+        "imdb_id": "tt31227572",
+        "media_type": "movie"
+      }
+    },
+    "brainEffort": {
+      "fear-and-loathing-in-las-vegas": null,
+      "coherence": null,
+      "a-complete-unknown": null,
+      "the-wolf-of-wall-street": 2,
+      "predator-badlands": 2
     }
   },
   "githubSourceSync": {
     "branch": "main",
-    "baseCommit": "cc9c53ddadf1d819da0990fbe7cb14ff94ebd03c",
-    "sourceIncludedInThisCommit": true,
-    "deploymentTrigger": "Existing Cloudflare Workers Builds integration on push to main",
-    "note": "source above records the historical direct deployment; this commit reconciles that release onto main."
+    "commit": "eb429a65b073f2934b6bf55be88fca5a657945ba",
+    "pushed": true,
+    "cloudflareBuildStatus": "success",
+    "cloudflareBuildUrl": "https://dash.cloudflare.com/d4ff220754fe194748e128743cb69f01/workers/services/view/stoner-reviews/production/builds/3fba2bc9-7f94-48b4-b2e1-afc3c4dfe1de",
+    "cloudflareVersionId": "ea5f58b0-8d61-4a9b-8b57-6f46f339e466",
+    "liveIntegrationChecksPassed": 12
+  },
+  "databaseOnlyPublication": {
+    "date": "2026-10-26",
+    "migrations": [
+      "0003_add_brain_effort.sql",
+      "0004_add_media_identifiers.sql"
+    ],
+    "reviewCount": 5,
+    "allEditorialDataAndScoresVerified": true,
+    "backup": ".local-backups/d1-identifiers-2026-10-26/production-before.sql",
+    "workerRedeployed": false,
+    "githubPushed": false,
+    "liveApiStatus": 200,
+    "liveReviewUrlsStatus": 200,
+    "note": "Production API still omits new ID/Brain Effort fields and new posters await deployment."
   }
 }

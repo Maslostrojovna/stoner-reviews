@@ -12,6 +12,8 @@ const allowed = new Set([
   "logos/stoner-reviews-wizard-teal-400.png",
   "posters/fear-and-loathing-1998.png", "posters/coherence-2013.svg",
   "posters/a-complete-unknown-2024.svg",
+  "posters/the-wolf-of-wall-street-2013.svg",
+  "posters/predator-badlands-2025.svg",
 ]);
 const root = fileURLToPath(new URL("../Deployment/test-brand-reference-cloudflare/public/", import.meta.url));
 const actual = new Set();
