@@ -1,0 +1,14 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "recoleta",
+        "createdAt": "2026-10-26T21:03:28.079Z",
+        "reason": "Agent: preserve established Recoleta Alt typography documented in BrandKit/guidelines/BRAND.md and design-tokens.json; AGENTS.md requires preserving the visual identity."
+      }
+    ]
+  }
+}

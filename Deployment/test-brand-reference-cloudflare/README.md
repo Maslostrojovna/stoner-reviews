@@ -1,9 +1,34 @@
 # Stoner Reviews deployment
 
 The existing `stoner-reviews` Cloudflare Worker serves `stoner.danimaslo.dev`.
-The homepage is `public/index.html` in this directory: the updated V7 brand reference.
+The homepage uses `public/index.html` as a template, rendered by `functions/index.js`
+with the user’s introduction and real review links. Brand-reference examples are
+archived locally and excluded from public assets.
 `/reviews/` renders editorial reviews; `/api/editorial-reviews` returns read-only JSON.
 No frontend or API framework is used. Pages Functions are compiled into one Worker.
+
+## Local review URLs — 2026-10-26
+
+`/reviews/{slug}/` now renders one complete review with its own title, description,
+canonical URL and H1. The permalink key is the existing unique `editorial_reviews.slug`
+(not `movie_slug`); keep it stable when editing movie information. The listing links
+to these URLs. Example: `/reviews/fear-and-loathing-in-las-vegas/`.
+Existing reviews also work through the same route. Known slugs without a trailing
+slash redirect 308; unknown slugs return 404; database failures return 503.
+The detail page needs no browser JavaScript. Nested paths use Worker-first routing.
+
+After local migrations/seed and `npm run dev`, run:
+
+```sh
+python3 tests/check_review_url.py
+```
+
+This checks the raw HTTP HTML against every stored body paragraph, metadata, all
+six ratings, direct requests/reloads, the slash redirect, unknown-review 404, and
+listing links. See `tests/REVIEW-URL-CHECKS.md` for recorded verification.
+This change is local only. The review homepage, Teal/Dark teal theme switch and
+public-asset cleanup are also implemented locally; migration to `stoner.reviews`
+and publication remain subsequent work. See `tests/WEBSITE-CHECKS.md`.
 
 Run the commands below from the repository root.
 
@@ -52,8 +77,8 @@ initial HTML, even when its native details element is collapsed.
 
 The existing Cloudflare Workers Builds integration stays connected to
 `Maslostrojovna/stoner-reviews`, production branch `main`, repository root `/`.
-Before publishing this release, set its build command to `npm run build` and its
-deploy command to `npm run deploy`.
+Its build command was set to `npm run build` and its deploy command to
+`npm run deploy` for the verified 2026-10-23 release.
 Pushing to `main` therefore publishes production. The previous `--assets .`
 command must not be used because the application now has a specific public folder.
 
@@ -101,8 +126,50 @@ at that time. No `stoner.reviews` domain changes are part of the current release
 
 ## Brand assets
 
-The homepage retains its existing layout, reference sections and V7 logo updates.
-`public/logos/` contains approved exports; `public/references-v7/` contains the
-updated cover variants and provenance. Original images remain unchanged.
+The homepage is now a movie-review discovery page using the approved V7 logo and
+review posters. `public/logos/` contains only the required logo and favicon;
+`public/posters/` contains the three review covers. Source images and brand
+guidelines remain outside public/. `scripts/check-public-assets.mjs` rejects any
+file outside the website allowlist before build/deploy.
 Font CSS uses local Recoleta Alt and Kollektif with browser fallbacks, as before;
 no new font binaries are distributed.
+
+## Core-site update — local, 2026-10-26
+
+Primary navigation is Home, Reviews and Stoner Scores. `/stoner-scores/` explains
+seven independent ratings and the Brain Effort scale; its canonical is rewritten
+by `functions/stoner-scores.js`. Existing records retain their six approved scores
+and have no invented Brain Effort values. Homepage copy and the short About section
+follow the latest supplied brief; posters retain their full square artwork.
+
+The existing Teal/Dark teal theme bootstrap respects system preference, allows
+manual overrides, persists them, and executes before CSS/body parsing. The public
+allowlist now contains 19 website files. See `tests/CORE-SITE-CHECKS.md`.
+
+## Production cutover — 2026-10-26
+
+Primary URL is now `https://stoner.reviews/`. Both Custom Domains are configured;
+`functions/_middleware.js` redirects the old hostname permanently. Worker-first
+execution now covers every path so the redirect includes static and removed URLs.
+The deployed version is `faa1cbce-67e5-458e-a327-21cb016a3614`, 100% traffic.
+The existing D1 database is unchanged. See `tests/DEPLOYMENT-2026-10-26.md`.
+
+This release was deployed directly from the reviewed local working tree. GitHub
+main was not updated; reconcile application changes onto current main before a
+future push triggers a deployment. Do not re-publish the previous main as-is.
+
+## GitHub main source synchronization — 2026-10-26
+
+The user authorized updating GitHub main after the direct domain deployment. This
+commit reconciles the exact deployed website and application code onto remote main
+`cc9c53d`, preserving its approved editorial content, migrations and existing
+history. It includes the public upload allowlist, both domain bindings, old-host
+redirect, shared theme code, Scores page, and integration checks. Unrelated local
+notes, source drafts, private backups and credentials are excluded.
+
+Pushing this commit to main triggers the existing Cloudflare Workers Builds
+integration. That build should redeploy the same application; no database write
+is configured. Earlier warnings about main lacking this release are historical
+once this commit is on main. The primary local workspace remains on its older
+session branch with existing changes preserved; do not reset or push that branch
+over the updated main.

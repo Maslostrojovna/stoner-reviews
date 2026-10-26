@@ -7,22 +7,25 @@
   <title>Movie reviews — Stoner Reviews</title>
   <link rel="canonical" href="/reviews/">
   <link rel="icon" href="/logos/stoner-reviews-wizard-teal-400.png">
-  <link rel="stylesheet" href="/brand.css">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/site.css">
   <link rel="stylesheet" href="/reviews.css">
   <link rel="stylesheet" href="/site-nav.css">
-  <script src="/reviews.js" type="module"></script>
 </head>
-<body class="sr-surface sr-surface--teal">
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
   <header class="page-header">
-    <a href="/" aria-label="Stoner Reviews — home">
+    <a class="site-logo" href="/" aria-label="Stoner Reviews — home">
       <img src="/logos/stoner-reviews-v7-transparent.svg" alt="Stoner Reviews" width="170" height="83">
     </a>
     <nav class="site-nav" aria-label="Main navigation">
       <a href="/">Home</a>
       <a href="/reviews/" aria-current="page">Reviews</a>
+      <a href="/stoner-scores/">Stoner Scores</a>
     </nav>
+    <button class="theme-toggle" type="button" role="switch" aria-checked="true" aria-label="Darker teal" data-theme-toggle hidden><span data-theme-label>Teal</span><span class="theme-toggle-track" aria-hidden="true"></span></button>
   </header>
-  <main>
+  <main id="main">
     <h1 class="sr-display">Movie reviews</h1>
     <p class="intro">Find something worth watching high.</p>
     <p id="status" role="status">Loading reviews…</p>
@@ -30,5 +33,7 @@
     <div id="reviews" aria-busy="true"></div>
     <noscript><p>The full reviews and their open/close controls work without JavaScript.</p></noscript>
   </main>
+  <script src="/reviews.js" type="module"></script>
+  <footer class="page-footer"><a href="/">Stoner Reviews</a><a href="/reviews/">All reviews</a><a href="/stoner-scores/">Stoner Scores</a></footer>
 </body>
 </html>

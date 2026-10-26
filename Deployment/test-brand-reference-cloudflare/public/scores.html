@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How Stoner Scores work: seven independent movie ratings, including Brain Effort and our Overall recommendation.">
+  <title>Stoner Scores — Our movie rating system | Stoner Reviews</title>
+  <link rel="canonical" href="/stoner-scores/">
+  <link rel="icon" href="/logos/stoner-reviews-wizard-teal-400.png">
+  <script src="/theme.js"></script>
+  <link rel="stylesheet" href="/site.css">
+  <link rel="stylesheet" href="/scores.css">
+  <link rel="stylesheet" href="/site-nav.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="page-header">
+    <a class="site-logo" href="/" aria-label="Stoner Reviews — home">
+      <img src="/logos/stoner-reviews-v7-transparent.svg" alt="Stoner Reviews" width="170" height="83">
+    </a>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/reviews/">Reviews</a>
+      <a href="/stoner-scores/" aria-current="page">Stoner Scores</a>
+    </nav>
+    <button class="theme-toggle" type="button" role="switch" aria-checked="true" aria-label="Darker teal" data-theme-toggle hidden><span data-theme-label>Teal</span><span class="theme-toggle-track" aria-hidden="true"></span></button>
+  </header>
+  <main id="main" class="scores-main">
+    <header class="scores-intro">
+      <h1 class="sr-display">Stoner Scores</h1>
+      <p>Choose a film for the experience you want while high. Each of our seven independent ratings runs from 1 to 5.</p>
+    </header>
+    <section aria-labelledby="ratings-title">
+      <h2 id="ratings-title" class="sr-display">Seven independent ratings</h2>
+      <dl class="score-definitions">
+        <div><dt>Fun</dt><dd>Make me laugh</dd></div>
+        <div><dt>Action</dt><dd>Take me on a wild ride</dd></div>
+        <div><dt>Mind-blowing</dt><dd>Blow my mind</dd></div>
+        <div><dt>Smart</dt><dd>Give me something to think about</dd></div>
+        <div><dt>Feels</dt><dd>Hit me in the feels</dd></div>
+        <div><dt><a href="#brain-effort">Brain Effort</a></dt><dd>How much attention does this demand?<span class="score-note">Concentration, not quality.</span></dd></div>
+        <div><dt>Overall</dt><dd>Our overall recommendation</dd></div>
+      </dl>
+      <p class="overall-explanation">Overall is an independent editorial recommendation, not a mathematical average of the other scores.</p>
+    </section>
+    <section id="brain-effort" class="effort-section" aria-labelledby="effort-title">
+      <h2 id="effort-title" class="sr-display">Brain Effort</h2>
+      <p>Unlike the other categories, Brain Effort doesn't measure quality. It measures how much concentration is required to follow and enjoy the film, especially when high.</p>
+      <ol class="effort-scale">
+        <li><strong>Brain off</strong><span>Little concentration required.</span></li>
+        <li><strong>Easy does it</strong><span>Mostly effortless, occasional attention needed.</span></li>
+        <li><strong>Pay attention</strong><span>Follow what's happening or miss something.</span></li>
+        <li><strong>Keep up</strong><span>Sustained concentration required.</span></li>
+        <li><strong>Full CPU usage</strong><span>Serious mental effort. Look away and good luck.</span></li>
+      </ol>
+    </section>
+    <p class="scores-browse"><a href="/reviews/">Find your next film in the reviews</a></p>
+  </main>
+  <footer class="page-footer"><a href="/">Stoner Reviews</a><a href="/reviews/">All reviews</a><a href="/stoner-scores/">Stoner Scores</a></footer>
+</body>
+</html>

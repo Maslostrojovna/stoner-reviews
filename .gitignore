@@ -6,3 +6,11 @@ node_modules/
 .dev.vars*
 .env*
 .DS_Store
+
+# Private local planning and safety copies; not project source.
+/BusinessDetails/
+/.local-backups/
+
+# Generated bundles; keep the individual source assets in Git instead.
+/BrandKit/**/*.zip
+/Deployment/**/*.zip

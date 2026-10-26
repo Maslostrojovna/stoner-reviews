@@ -1,0 +1,73 @@
+{
+  "hostname": "stoner.reviews",
+  "provider": "Cloudflare Workers",
+  "worker": "stoner-reviews",
+  "repository": "https://github.com/Maslostrojovna/stoner-reviews",
+  "status": "deployed-https-verified",
+  "url": "https://stoner.reviews/",
+  "cloudflareVersionId": "faa1cbce-67e5-458e-a327-21cb016a3614",
+  "previousCloudflareVersionId": "c9a4e715-b64f-400c-89b1-22bc1efda63e",
+  "publishedDate": "2026-10-26",
+  "publishedAtLocal": "2026-10-26T22:19:03+01:00",
+  "timezone": "Europe/Prague",
+  "deploymentMethod": "npm run build; npm run deploy (direct Wrangler deployment from reviewed local working tree)",
+  "source": {
+    "branch": "codex/session-2026-10-23",
+    "baseCommit": "7dafeda84c9c0654a76007e21bfb510147f2b933",
+    "workingTreeDirty": true,
+    "githubMainCommit": "cc9c53ddadf1d819da0990fbe7cb14ff94ebd03c",
+    "committedOrPushed": false,
+    "releaseSnapshot": ".local-backups/deploy-stoner-reviews-2026-10-26/"
+  },
+  "domains": {
+    "primary": "stoner.reviews",
+    "zoneId": "1aec63e5ada0aa42efe55964aee2fd35",
+    "legacy": "stoner.danimaslo.dev",
+    "legacyRedirectStatus": 308,
+    "legacyPathAndQueryPreserved": true
+  },
+  "verification": {
+    "traffic": "100%",
+    "tlsCertificateValidated": true,
+    "authoritativeDnsResolves": true,
+    "cloudflareAndGooglePublicDnsResolve": true,
+    "httpIntegrationTestsPassed": 12,
+    "homepageStatus": 200,
+    "reviewsStatus": 200,
+    "stonerScoresStatus": 200,
+    "individualReviewStatus": 200,
+    "unknownReviewStatus": 404,
+    "apiStatus": 200,
+    "apiPostStatus": 405,
+    "fullReviewInInitialHTML": true,
+    "allThreeReviewsMatchLocalTextScoresAndRuntimes": true,
+    "staticAssetsByteMatched": 13,
+    "removedWorkFileUrlsVerified404": 39,
+    "publicFiles": 19,
+    "pageTitle": "Stoner Reviews – Movie Reviews & Recommendations",
+    "notes": [
+      "Local OS/browser retained a negative DNS cache during verification; live checks used public DNS addresses with normal TLS hostname verification.",
+      "Default Python urllib User-Agent receives Cloudflare 1010; curl User-Agent succeeds. No security or bot settings changed.",
+      "Live browser UI verification was deferred by the local DNS cache; the same deployed assets were already visually verified locally."
+    ]
+  },
+  "database": {
+    "name": "stoner-reviews-prod",
+    "id": "7b2c5a8c-8e9b-4eff-9073-a05bc1fc6e27",
+    "jurisdiction": "eu",
+    "binding": "DB",
+    "editorialReviewCount": 3,
+    "runtimeMinutes": {
+      "a-complete-unknown": 141,
+      "coherence": 89,
+      "fear-and-loathing-in-las-vegas": 118
+    }
+  },
+  "githubSourceSync": {
+    "branch": "main",
+    "baseCommit": "cc9c53ddadf1d819da0990fbe7cb14ff94ebd03c",
+    "sourceIncludedInThisCommit": true,
+    "deploymentTrigger": "Existing Cloudflare Workers Builds integration on push to main",
+    "note": "source above records the historical direct deployment; this commit reconciles that release onto main."
+  }
+}

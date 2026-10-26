@@ -1,23 +1,22 @@
 * { box-sizing: border-box; }
-body { margin: 0; line-height: 1.6; }
+
 [hidden] { display: none !important; }
-::selection { background: var(--sr-apricot); color: var(--sr-midnight); }
+
 a, button, summary { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 3px solid var(--sr-apricot); outline-offset: 5px; }
-.page-header, main { width: min(880px, calc(100% - 40px)); margin-inline: auto; }
-.page-header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 24px; border-bottom: var(--sr-rule); }
-.page-header img { display: block; max-width: 100%; height: auto; }
-.page-header > a:last-child { font-size: 13px; text-underline-offset: 4px; }
+:focus-visible { outline: 3px solid var(--sr-accent); outline-offset: 5px; }
+main { width: min(880px, calc(100% - 40px)); margin-inline: auto; }
+
+
+
 main { padding-block: 40px 72px; }
 h1 { margin: 0; font-size: clamp(36px, 6vw, 56px); text-wrap: balance; }
 .intro { margin: 16px 0 32px; }
 #status:empty { display: none; }
 #retry { padding: 10px 20px; font-size: 16px; cursor: pointer; }
-#retry:hover { background: var(--sr-cream); }
 #reviews { display: grid; gap: 28px; }
 .review-card { min-width: 0; padding: 28px; border: var(--sr-rule); }
 .review-header { display: flex; align-items: center; gap: 24px; }
-.review-art { flex: 0 0 auto; width: 128px; height: 150px; object-fit: cover; }
+.review-art { flex: 0 0 auto; width: 144px; height: auto; aspect-ratio: 1; object-fit: contain; }
 .review-heading { min-width: 0; }
 .review-year { margin: 0 0 8px; font-size: 14px; }
 .review-title { margin: 0; font-size: clamp(26px, 4vw, 38px); line-height: 1.12; text-wrap: balance; overflow-wrap: anywhere; }
@@ -27,13 +26,14 @@ h1 { margin: 0; font-size: clamp(36px, 6vw, 56px); text-wrap: balance; }
 .ratings { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; margin: 0 0 24px; padding-top: 20px; border-top: var(--sr-rule); text-align: center; }
 .rating dt { font-size: 12px; }
 .rating dd { margin: 4px 0 0; font-variant-numeric: tabular-nums; }
-.rating-value { font-size: 22px; font-weight: 700; color: var(--sr-apricot); }
+.rating-value { font-size: 22px; font-weight: 700; color: var(--sr-accent); }
 .rating-dots { display: flex; justify-content: center; gap: 4px; margin-top: 8px; }
 .rating-dots .sr-rating-dot { width: 8px; height: 8px; }
+.score-guide-link { margin: -8px 0 24px; font-size: 13px; }
 .review-body { margin-top: 24px; padding-top: 8px; border-top: var(--sr-rule); overflow-wrap: anywhere; }
 .review-body p { max-width: 72ch; margin: 16px 0; white-space: pre-line; }
-.review-body h3 { margin: 28px 0 10px; font-size: 22px; line-height: 1.3; }
-summary { display: flex; justify-content: center; align-items: center; gap: 12px; min-height: 44px; padding: 8px 16px; border: 1px solid var(--sr-apricot); color: var(--sr-apricot); cursor: pointer; list-style: none; }
+.review-body h2, .review-body h3 { margin: 28px 0 10px; font-size: 22px; line-height: 1.3; }
+summary { display: flex; justify-content: center; align-items: center; gap: 12px; min-height: 44px; padding: 8px 16px; border: 1px solid var(--sr-accent); color: var(--sr-accent); cursor: pointer; list-style: none; }
 summary::-webkit-details-marker { display: none; }
 summary:hover { background: var(--sr-cream); color: var(--sr-midnight); }
 summary::after { content: ""; width: 8px; height: 8px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; transform: rotate(45deg) translateY(-2px); }
@@ -41,13 +41,13 @@ details[open] summary::after { transform: rotate(225deg) translate(-2px, -2px); 
 .close-label, details[open] .open-label { display: none; }
 details[open] .close-label { display: inline; }
 @media (max-width: 540px) {
-  .page-header, main { width: calc(100% - 28px); }
-  .page-header { gap: 14px; padding-block: 18px; }
-  .page-header img { width: 140px; }
+  main { width: calc(100% - 28px); }
+
+
   main { padding-top: 30px; }
   .review-card { padding: 18px; }
   .review-header { align-items: flex-start; gap: 16px; }
-  .review-art { width: 88px; height: 112px; }
+  .review-art { width: 88px; height: auto; }
   .review-title { font-size: 26px; }
   .review-tagline { font-size: 14px; }
   .ratings { gap: 6px; }

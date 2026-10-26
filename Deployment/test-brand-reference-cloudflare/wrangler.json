@@ -4,15 +4,16 @@
   "assets": {
     "directory": "./public",
     "binding": "ASSETS",
-    "run_worker_first": [
-      "/api/*",
-      "/reviews",
-      "/reviews/"
-    ]
+    "not_found_handling": "404-page",
+    "run_worker_first": true
   },
   "routes": [
     {
       "pattern": "stoner.danimaslo.dev",
+      "custom_domain": true
+    },
+    {
+      "pattern": "stoner.reviews",
       "custom_domain": true
     }
   ],
