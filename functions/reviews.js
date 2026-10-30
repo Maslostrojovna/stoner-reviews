@@ -1,3 +1,4 @@
+import { sitePages, withSocialMetadata } from "../lib/social-metadata.js";
 import { onRequest as getEditorialReviews } from "./api/editorial-reviews.js";
 import { renderReviews } from "../Deployment/test-brand-reference-cloudflare/public/review-renderer.js";
 
@@ -23,11 +24,9 @@ export async function onRequestGet(context) {
   });
   response.headers.set("Cache-Control", "no-store");
   if (!loaded) response.headers.set("Retry-After", "60");
+  if (!loaded) response.headers.set("X-Robots-Tag", "noindex");
 
-  return new HTMLRewriter()
-    .on('link[rel="canonical"]', { element(element) {
-      element.setAttribute("href", new URL("/reviews/", url).href);
-    } })
+  return withSocialMetadata(new HTMLRewriter(), dataResponse.ok ? sitePages.reviews : null)
     .on("#reviews", { element(element) {
       element.setInnerContent(cards, { html: true });
       element.setAttribute("aria-busy", "false");

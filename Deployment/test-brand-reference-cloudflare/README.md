@@ -1,5 +1,19 @@
 # Stoner Reviews deployment
 
+## Current image release requirement — 2026-10-30
+
+Follow [the standing image workflow](../../IMAGE-WORKFLOW.md) for every new review
+and image change. Finish optimized WebPs and the film's 1200×630 PNG social
+preview; update both renderer/social mappings, generator source lists and the
+explicit public allowlist together. Check raw HTTP HTML, all candidate/image
+responses, actual responsive selection, layout/quality and transfer bytes before
+showing the release diff. Do not publish a new row while its required artwork or
+deployed code is unavailable. Coordinate D1 and code publication with approval.
+
+The user separately authorized committing/publishing the October 30 image/social
+implementation. Future publication still needs its own authorization. The historical sections below do not supersede this workflow
+or establish current deployment state. A push to main deploys production.
+
 The existing `stoner-reviews` Cloudflare Worker serves `stoner.danimaslo.dev`.
 The homepage uses `public/index.html` as a template, rendered by `functions/index.js`
 with the user’s introduction and real review links. Brand-reference examples are

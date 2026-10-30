@@ -24,6 +24,13 @@ hierarchy without copying Coherence's scene into unrelated films.
 
 ## Output and verification
 
+The finished poster is also the source for the optimized website and social
+exports. Follow [IMAGE-WORKFLOW.md](../../IMAGE-WORKFLOW.md) for descriptive
+filenames ending in `-stoner-reviews` (no pixel/version suffixes), WebP roles,
+1200×630 PNG social output, source preservation, renderer/metadata/allowlist wiring
+and release verification. A full-resolution source export alone is not the
+website delivery asset. This does not change the approved composition above.
+
 Keep the generated artwork, exact prompt and final composition in this folder.
 Export a final branded PNG for preview and sharing. Verify the logo, title and
 tagline at full size; preview the final image with all three present. A generated

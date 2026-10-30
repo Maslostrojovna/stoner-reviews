@@ -1,5 +1,40 @@
 # Stoner Reviews
 
+Publication of the October 30 image/social feature was explicitly authorized.
+The dated local sections below describe its development and verification history;
+see the release record for publication results. Production D1 is unchanged.
+
+## Standing image workflow
+
+Follow [IMAGE-WORKFLOW.md](IMAGE-WORKFLOW.md) for future development and every
+new review release: source preservation, descriptive filenames, optimized WebP
+derivatives, PNG social previews, SSR/loading/accessibility requirements, wiring
+checklist and measured verification. This is the ongoing delivery standard;
+the dated sections below record its initial local implementation.
+
+## Local image optimization — 2026-10-30
+
+Approved image optimization adds three WebP sizes per film through the shared
+SSR/fallback renderer, responsive srcset/sizes, native lazy loading for later
+posters and film/year alt text. Existing originals, paths, layout and contain
+behavior remain intact. New names use descriptive roles and end in
+`-stoner-reviews`, without pixel dimensions or version suffixes. Unpublished
+social PNGs were renamed byte-for-byte to follow the same convention. No commit,
+merge, push, deployment or D1 change. See
+[the measured results](tests/IMAGE-OPTIMIZATION-2026-10-30.md).
+
+## Local social metadata — 2026-10-30
+
+The feature branch `codex/stoner-reviews-improvements` adds server-delivered
+Open Graph/Twitter metadata and absolute primary-domain canonicals for home,
+listing, Scores and all reviews. Six 1200×630 PNGs are allowlisted.
+Review descriptions use stored editorial copy; 404/503 responses omit social
+identities and are noindex. No deployment or D1 changes. See
+[the implementation and test record](tests/SOCIAL-METADATA-2026-10-30.md).
+Earlier sections below retain historical deployment/score states; the original
+three films now have approved Brain Effort 2/4/2 in existing local/production data.
+
+
 ## Product vision and current scope
 
 Stoner Reviews is a movie discovery and recommendation platform answering:

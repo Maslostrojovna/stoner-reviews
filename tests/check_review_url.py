@@ -5,12 +5,13 @@ Requires local migrations plus Fear and Loathing and Wolf imports in local D1.
 See database/WOLF-2026-10-26.md.
 """
 import json
+import os
 import re
 import sys
 import unittest
 from html.parser import HTMLParser
 from urllib.error import HTTPError
-from urllib.request import HTTPRedirectHandler, build_opener
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 BASE = (sys.argv.pop(1) if len(sys.argv) > 1 else "http://127.0.0.1:8788").rstrip("/")
 PATH = "/reviews/fear-and-loathing-in-las-vegas/"
@@ -23,7 +24,8 @@ class NoRedirect(HTTPRedirectHandler):
 
 def get(path, *, binary=False):
     try:
-        response = build_opener(NoRedirect).open(BASE + path, timeout=15)
+        headers = {"User-Agent": os.environ["STONER_TEST_USER_AGENT"]} if os.environ.get("STONER_TEST_USER_AGENT") else {}
+        response = build_opener(NoRedirect).open(Request(BASE + path, headers=headers), timeout=15)
     except HTTPError as error:
         response = error
     with response:
@@ -82,7 +84,7 @@ class ReviewURLChecks(unittest.TestCase):
             self.assertRegex(text, re.escape(label) + r"\s*" + str(review[field]) + r"\s*/5")
         self.assertIn("<title>Fear and Loathing in Las Vegas (1998) review — Stoner Reviews</title>", html)
         self.assertIn(("meta", {"name": "description", "content": review["verdict"]}), document.elements)
-        self.assertIn(("link", {"rel": "canonical", "href": BASE + PATH}), document.elements)
+        self.assertIn(("link", {"rel": "canonical", "href": "https://stoner.reviews" + PATH}), document.elements)
         self.assertEqual(sum(tag == "h1" for tag, _ in document.elements), 1)
         self.assertFalse(any(tag == "details" for tag, _ in document.elements))
         self.assertTrue(all(attrs.get("src") == "/theme.js"
@@ -166,7 +168,7 @@ class ReviewURLChecks(unittest.TestCase):
             self.assertIn(label, text)
         self.assertIn("Brain Effort doesn't measure quality.", text)
         self.assertIn("not a mathematical average of the other scores", text)
-        self.assertIn(("link", {"rel": "canonical", "href": BASE + "/stoner-scores/"}), document.elements)
+        self.assertIn(("link", {"rel": "canonical", "href": "https://stoner.reviews/stoner-scores/"}), document.elements)
         self.assertEqual(sum(tag == "h1" for tag, _ in document.elements), 1)
         self.assertEqual(sum(tag == "li" for tag, _ in document.elements), 5)
         self.assertEqual(get("/stoner-scores/")[2], html)
@@ -215,9 +217,10 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertEqual(wolf["tagline"], "An awful person. Excellent company.")
         self.assertEqual([wolf[key] for key in ["fun", "action", "mind_blowing", "smart", "feels", "brain_effort", "overall"]],
                          [5, 4, 3, 4, 2, 2, 5])
+        approved_effort = {"fear-and-loathing-in-las-vegas": 2, "coherence": 4, "a-complete-unknown": 2}
         for review in reviews:
-            if review["slug"] in ["fear-and-loathing-in-las-vegas", "coherence", "a-complete-unknown"]:
-                self.assertIsNone(review["brain_effort"])
+            if review["slug"] in approved_effort:
+                self.assertEqual(review["brain_effort"], approved_effort[review["slug"]])
         status, _, html = get("/reviews/the-wolf-of-wall-street/")
         self.assertEqual(status, 200)
         self.assertIn("The Wolf of Wall Street (2013) review — Stoner Reviews", html)

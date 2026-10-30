@@ -1,3 +1,4 @@
+import { sitePages, withSocialMetadata } from "../lib/social-metadata.js";
 import { onRequest as getEditorialReviews } from "./api/editorial-reviews.js";
 import { renderReviewPreviews } from "../Deployment/test-brand-reference-cloudflare/public/review-renderer.js";
 
@@ -12,11 +13,9 @@ export async function onRequestGet(context) {
   });
   response.headers.set("Cache-Control", "no-store");
   if (!dataResponse.ok) response.headers.set("Retry-After", "60");
+  if (!dataResponse.ok) response.headers.set("X-Robots-Tag", "noindex");
 
-  return new HTMLRewriter()
-    .on('link[rel="canonical"]', { element(element) {
-      element.setAttribute("href", new URL("/", url).href);
-    } })
+  return withSocialMetadata(new HTMLRewriter(), dataResponse.ok ? sitePages.home : null)
     .on("#review-previews", { element(element) {
       element.setInnerContent(dataResponse.ok ? renderReviewPreviews(data.editorial_reviews) : "", { html: true });
     } })

@@ -1,3 +1,4 @@
+import { reviewMetadata, withSocialMetadata } from "../../lib/social-metadata.js";
 import { onRequest as getEditorialReviews } from "../api/editorial-reviews.js";
 import { renderReview } from "../../Deployment/test-brand-reference-cloudflare/public/review-renderer.js";
 
@@ -16,11 +17,12 @@ export async function onRequestGet(context) {
     return Response.redirect(url, 308);
   }
 
+  const metadata = review ? reviewMetadata(review) : null;
   const title = review
-    ? `${review.movie_title}${review.release_year != null ? ` (${review.release_year})` : ""} review — Stoner Reviews`
+    ? metadata.title
     : status === 404 ? "Review not found — Stoner Reviews" : "Review unavailable — Stoner Reviews";
   const description = review
-    ? review.verdict || review.tagline || `Read our review of ${review.movie_title} on Stoner Reviews.`
+    ? metadata.description
     : status === 404 ? "This review could not be found. Browse the movie reviews on Stoner Reviews."
       : "This review is temporarily unavailable. Please try again shortly.";
 
@@ -30,13 +32,9 @@ export async function onRequestGet(context) {
   if (status === 503) response.headers.set("Retry-After", "60");
   if (status !== 200) response.headers.set("X-Robots-Tag", "noindex");
 
-  return new HTMLRewriter()
-    .on("title", { element(element) { element.setInnerContent(title); } })
-    .on('meta[name="description"]', { element(element) { element.setAttribute("content", description); } })
-    .on('link[rel="canonical"]', { element(element) {
-      if (review) element.setAttribute("href", new URL(`/reviews/${encodeURIComponent(review.slug)}/`, url).href);
-      else element.remove();
-    } })
+  return withSocialMetadata(new HTMLRewriter(), metadata)
+    .on("title", { element(element) { if (!metadata) element.setInnerContent(title); } })
+    .on('meta[name="description"]', { element(element) { if (!metadata) element.setAttribute("content", description); } })
     .on("#review", { element(element) {
       if (review) element.setInnerContent(renderReview(review, { detail: true }), { html: true });
       else element.setInnerContent(status === 404

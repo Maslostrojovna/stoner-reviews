@@ -1,3 +1,35 @@
+# Release authorized — 2026-10-30
+
+The user explicitly authorized committing and publishing all work in this feature
+branch, including the earlier OG/Twitter metadata and social images, responsive
+WebP optimization and standing image workflow. Release preparation is based on
+verified GitHub main 2eea96d. No production D1/schema writes are part of this
+release. The entries below record the pre-publication development stages.
+
+# Current feature handoff — 2026-10-30
+
+The optimized-image approach is now a standing project/review-release workflow:
+read [IMAGE-WORKFLOW.md](IMAGE-WORKFLOW.md). AGENTS.md, the deployment guide and
+poster guide point to it so future work includes the same delivery checks.
+
+Working folder: sibling `Stoner Reviews Improvements`; branch
+`codex/stoner-reviews-improvements`, based on main `2eea96d`. Original dirty
+`Stoner Reviews` checkout and local D1 state are preserved. Social metadata and
+preview PNGs are implemented locally; no commit, push or deployment.
+Read [the scoped feature record](tests/SOCIAL-METADATA-2026-10-30.md) for code,
+image provenance, verification, reproduction and remaining limits.
+The user subsequently approved image optimization, with descriptive filenames
+ending in -stoner-reviews and no pixel/version suffixes. Fifteen WebP derivatives
+are served through responsive SSR images; existing sources and public paths are
+preserved. Social PNG contents are unchanged under the new unpublished names.
+See tests/IMAGE-OPTIMIZATION-2026-10-30.md for results and the review diff. The user
+will merge/publish later; do not commit/push/deploy from this authorization.
+
+Earlier entries below are historical; do not infer current production state
+from their pending/local-only or original-three-Brain-Effort-NULL statements.
+
+---
+
 # Session handoff — 2026-10-23
 
 Date uses Europe/Prague. Objective: publish the smallest database-backed editorial

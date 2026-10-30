@@ -33,6 +33,23 @@ instead of silently replacing them.
 - Do not build authentication, accounts, social features, or mobile applications
   unless they are explicitly in scope. Do not create future database tables early.
 
+## Image delivery — standing workflow, approved 2026-10-30
+
+- Read and follow `IMAGE-WORKFLOW.md` for frontend image work and every new review
+  release. Audit actual usage before changing assets; preserve approved originals,
+  published URLs, V7 branding, full composition and contain behavior.
+- Use appropriately sized WebP website derivatives and PNG social previews.
+  New filenames end in `-stoner-reviews` before the extension; use descriptive
+  roles, never pixel dimensions or version suffixes. Follow the documented
+  thumbnail/default/large sizes, quality comparisons and measured budgets.
+- Wire renderer/social maps and every exact public allowlist entry together.
+  Preserve SSR references, film/year alt, reserved aspect ratio, responsive
+  selection, native lazy loading and appropriate first-view/LCP priority.
+- A new review is not ready to publish until its optimized images/social preview,
+  mappings, allowlist and HTTP/browser checks are complete. No image service,
+  framework or D1 change is needed merely to deliver artwork. Show the diff;
+  publication and production writes still require explicit approval.
+
 ## Production and Git safety
 
 - Never modify a production database, create cloud resources, deploy, or roll back
@@ -71,8 +88,8 @@ instead of silently replacing them.
   Brain Effort (attention required, not quality). Migration 0003 adds nullable
   `brain_effort`; migration 0003 is now applied in production. The Wolf of Wall
   Street and Predator: Badlands each have user-approved
-  Brain Effort 2; the original three reviews
-  remain NULL. Never infer or invent missing values. Publication needs explicit
+  Brain Effort 2; the original three now have user-approved values
+  Fear and Loathing 2, Coherence 4 and A Complete Unknown 2. Never infer or invent missing values. Publication needs explicit
   approval for deployment. Both reviews are now stored in production D1; their
   new artwork and API/renderer changes are included in the user-authorized complete app release.
 - `tmdb_id`, `imdb_id`, and `media_type` are stored by migration 0004, applied to
@@ -86,9 +103,10 @@ instead of silently replacing them.
   material and preserve its exact wording and assigned scores when importing.
 - `body_md` contains the complete main review, including the entire “Why watch it
   high?” section. `why_watch_high_md` contains only the first paragraph following
-  that heading. Title/year, tagline, verdict, and six scores have separate fields.
+  that heading. Title/year, tagline, verdict, and seven scores have separate fields.
 - The authoritative current scores are in `Reviews/Fear&Loathing.md` and the seed.
-  The editorial guide was reconciled to the six-rating model on 2026-10-23.
+  The current model has seven independent ratings; older six-score/NULL notes
+  describe historical states.
   Source edits and seed reruns do not automatically update rows.
 
 ## SEO/GEO is a product requirement

@@ -1,3 +1,4 @@
+import { sitePages, withSocialMetadata } from "../lib/social-metadata.js";
 export async function onRequestGet(context) {
   const url = new URL(context.request.url);
   if (url.pathname === "/stoner-scores") {
@@ -6,9 +7,6 @@ export async function onRequestGet(context) {
   const template = await context.env.ASSETS.fetch(new Request(new URL("/scores", url)));
   const response = new Response(template.body, { headers: template.headers });
   response.headers.set("Cache-Control", "no-store");
-  return new HTMLRewriter()
-    .on('link[rel="canonical"]', { element(element) {
-      element.setAttribute("href", new URL("/stoner-scores/", url).href);
-    } })
+  return withSocialMetadata(new HTMLRewriter(), sitePages.scores)
     .transform(response);
 }

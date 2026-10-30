@@ -4,13 +4,14 @@ const dimensions = [
   ["smart", "Smart"], ["feels", "Feels"], ["brain_effort", "Brain Effort"],
 ];
 
-// Reuse existing artwork. The API has no artwork field yet.
+// Offline derivatives of the approved artwork. Original PNG/SVG URLs remain valid.
+// The API stays independent of artwork/presentation paths.
 const artwork = new Map([
-  ["fear-and-loathing-in-las-vegas-1998", "/posters/fear-and-loathing-1998.png"],
-  ["coherence-2013", "/posters/coherence-2013.svg"],
-  ["a-complete-unknown-2024", "/posters/a-complete-unknown-2024.svg"],
-  ["the-wolf-of-wall-street-2013", "/posters/the-wolf-of-wall-street-2013.svg"],
-  ["predator-badlands-2025", "/posters/predator-badlands-2025.svg"],
+  ["fear-and-loathing-in-las-vegas-1998", "fear-and-loathing-1998"],
+  ["coherence-2013", "coherence-2013"],
+  ["a-complete-unknown-2024", "a-complete-unknown-2024"],
+  ["the-wolf-of-wall-street-2013", "the-wolf-of-wall-street-2013"],
+  ["predator-badlands-2025", "predator-badlands-2025"],
 ]);
 
 function escapeHTML(value) {
@@ -24,6 +25,19 @@ function renderInline(value) {
   return escapeHTML(value).replace(/\*([^*\n]+)\*/g, "<em>$1</em>");
 }
 
+function renderArtwork(review, { preview = false, eager = true, priority = "auto" } = {}) {
+  const stem = artwork.get(review.movie_slug);
+  if (!stem) return "";
+  const image = role => `/posters/${stem}${role}-stoner-reviews.webp`;
+  const film = `${review.movie_title}${review.release_year != null ? ` (${review.release_year})` : ""}`;
+  // Match home.css's single-column breakpoint, gutters, grid gaps and max width.
+  const sizes = preview
+    ? "(max-width: 600px) calc(100vw - 36px), (max-width: 800px) calc((100vw - 108px) / 3), (max-width: 1184px) calc((100vw - 128px) / 3), 352px"
+    : "(max-width: 540px) 88px, 144px";
+  const width = preview ? 720 : 320;
+  return `<img${preview ? "" : ' class="review-art"'} src="${image(preview ? "" : "-thumbnail")}" srcset="${image("-thumbnail")} 320w, ${image("")} 720w, ${image("-large")} 1152w" sizes="${sizes}" alt="${escapeHTML(`Illustrated poster for ${film}.`)}" width="${width}" height="${width}" loading="${eager ? "eager" : "lazy"}" fetchpriority="${priority}" decoding="async">`;
+}
+
 // Current reviews use Markdown headings and paragraphs. Escape all source text;
 // raw HTML is never interpreted, including when rendering on the server.
 function renderBody(markdown, headingTag = "h3") {
@@ -33,11 +47,10 @@ function renderBody(markdown, headingTag = "h3") {
   }).join("");
 }
 
-export function renderReview(review, { detail = false } = {}) {
+export function renderReview(review, { detail = false, eager = true } = {}) {
   const heading = detail ? "h1" : "h2";
   const title = escapeHTML(review.movie_title);
   const permalink = `/reviews/${encodeURIComponent(review.slug)}/`;
-  const image = artwork.get(review.movie_slug);
   const runtime = review.runtime_minutes;
   const watchTime = Number.isInteger(runtime) && runtime > 0
     ? [Math.floor(runtime / 60) ? `${Math.floor(runtime / 60)}h` : "", runtime % 60 ? `${runtime % 60}m` : ""].filter(Boolean).join(" ")
@@ -53,7 +66,7 @@ export function renderReview(review, { detail = false } = {}) {
 
   return `<article class="review-card" id="${escapeHTML(review.slug)}">
     <div class="review-header">
-      ${image ? `<img class="review-art" src="${image}" alt="" width="144" height="144">` : ""}
+      ${renderArtwork(review, { eager })}
       <div class="review-heading">
         ${review.release_year != null ? `<p class="review-year">${escapeHTML(review.release_year)}</p>` : ""}
         <${heading} class="review-title sr-display">${detail ? title : `<a class="sr-review-link" href="${permalink}">${title}</a>`}</${heading}>
@@ -74,18 +87,19 @@ export function renderReview(review, { detail = false } = {}) {
 }
 
 export function renderReviews(reviews) {
-  return reviews.map(review => renderReview(review)).join("");
+  return reviews.map((review, index) => renderReview(review, { eager: index === 0 })).join("");
 }
 
 export function renderReviewPreviews(reviews) {
-  return reviews.map(review => {
+  return reviews.map((review, index) => {
     const url = `/reviews/${encodeURIComponent(review.slug)}/`;
     const title = escapeHTML(review.movie_title);
-    const image = artwork.get(review.movie_slug);
+    // The first poster can be LCP at the wide single-column breakpoint.
+    const image = renderArtwork(review, { preview: true, eager: index < 3, priority: index === 0 ? "high" : "auto" });
     const overall = Number.isInteger(review.overall) && review.overall >= 1 && review.overall <= 5
       ? `<strong>Overall ${review.overall}/5</strong>` : "";
     return `<article class="review-preview">
-      ${image ? `<a class="preview-art" href="${url}" aria-label="Read ${title}"><img src="${image}" alt="" width="600" height="600"></a>` : ""}
+      ${image ? `<a class="preview-art" href="${url}" aria-label="Read ${title}">${image}</a>` : ""}
       <p class="preview-meta"><span>${escapeHTML(review.release_year)}</span>${overall}</p>
       <h3 class="sr-display"><a href="${url}">${title}</a></h3>
       ${review.tagline ? `<p class="preview-tagline">${escapeHTML(review.tagline)}</p>` : ""}
