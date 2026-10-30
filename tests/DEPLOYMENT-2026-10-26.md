@@ -1,3 +1,5 @@
+> Historical verification/development record. For the current published scope and status, read [the complete release report](RELEASE-2026-10-30.md). Earlier local-only or old-state statements below describe the original capture.
+
 # stoner.reviews deployment — 26 October 2026
 
 Explicitly authorized by the user. Published at 22:19 Europe/Prague with

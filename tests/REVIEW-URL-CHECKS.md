@@ -1,3 +1,5 @@
+> Historical verification/development record. For the current published scope and status, read [the complete release report](RELEASE-2026-10-30.md). Earlier local-only or old-state statements below describe the original capture.
+
 # Local review URL verification — 2026-10-26
 
 Implemented locally on `codex/session-2026-10-23`, preserving the pre-existing

@@ -1,3 +1,5 @@
+> Historical verification/development record. For the current published scope and status, read [the complete release report](RELEASE-2026-10-30.md). Earlier local-only or old-state statements below describe the original capture.
+
 # Image audit and proposed optimization — 30 October 2026
 
 **Historical pre-change audit. The user subsequently approved the plan with

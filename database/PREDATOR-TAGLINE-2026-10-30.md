@@ -1,3 +1,5 @@
+> Historical scoped database-change record. The subsequent website/artwork publication is documented in [the complete release report](../tests/RELEASE-2026-10-30.md).
+
 # Predator tagline — approved and applied, 2026-10-30
 
 User-approved wording: **The Predator somehow has friends now.**
