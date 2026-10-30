@@ -1,3 +1,21 @@
+# Current production handoff — 2026-10-30
+
+Published application commit `b189352` to GitHub main with explicit approval,
+including all OG/Twitter metadata, social PNGs, WebP optimization and the standing
+image workflow. Cloudflare build succeeded; version `079ed5cb-c6a7-4bbd-bc95-0a2e6c49053c` was verified at
+100% traffic. All 24 applicable live HTTP checks and 36 asset byte matches pass;
+API data is exactly preserved. No production D1/configuration changes.
+See [release verification](tests/DEPLOYMENT-2026-10-30.md) and
+[deployment record](Deployment/test-brand-reference-cloudflare/deployment.json).
+These record the verified application publication; documentation-only follow-up
+builds contain the same application/assets. Future releases need fresh approval.
+
+The original dirty session checkout and local D1 state remain untouched. Work is
+on `codex/stoner-reviews-improvements`. Entries below are chronological history;
+their earlier unpublished/deferred statements have been superseded.
+
+---
+
 # Release authorized — 2026-10-30
 
 The user explicitly authorized committing and publishing all work in this feature

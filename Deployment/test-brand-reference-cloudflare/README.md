@@ -1,5 +1,8 @@
 # Stoner Reviews deployment
 
+Published image/social release: application commit `b189352`; see
+[verified results](../../tests/DEPLOYMENT-2026-10-30.md) and deployment.json.
+
 ## Current image release requirement — 2026-10-30
 
 Follow [the standing image workflow](../../IMAGE-WORKFLOW.md) for every new review

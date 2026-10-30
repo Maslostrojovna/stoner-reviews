@@ -1,5 +1,9 @@
 # Social metadata — local implementation, 30 October 2026
 
+**Pre-publication implementation record. Subsequently published with approval;
+see [production verification](DEPLOYMENT-2026-10-30.md). Historical local-only
+statements below describe the development stage.**
+
 Branch: `codex/stoner-reviews-improvements`, based on verified GitHub main
 `2eea96dc14cd24030a7fb528aa47f7707e662cee`. Not committed, pushed or deployed.
 The original dirty `codex/session-2026-10-23` checkout is preserved separately.

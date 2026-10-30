@@ -5,122 +5,182 @@
   "repository": "https://github.com/Maslostrojovna/stoner-reviews",
   "status": "deployed-https-verified",
   "url": "https://stoner.reviews/",
-  "cloudflareVersionId": "ea5f58b0-8d61-4a9b-8b57-6f46f339e466",
-  "previousCloudflareVersionId": "faa1cbce-67e5-458e-a327-21cb016a3614",
-  "publishedDate": "2026-10-26",
-  "publishedAtLocal": "2026-10-26T22:19:03+01:00",
+  "recordKind": "Verified application publication; a documentation-only follow-up can create a newer Worker version with identical application code/assets.",
+  "publishedDate": "2026-10-30",
+  "publishedAtLocal": "2026-10-30T10:49:19.942000+01:00",
   "timezone": "Europe/Prague",
-  "deploymentMethod": "GitHub main push → Cloudflare Workers Builds (npm run build; npm run deploy)",
+  "deploymentMethod": "GitHub main fast-forward → Cloudflare Workers Builds",
   "source": {
-    "branch": "codex/session-2026-10-23",
-    "baseCommit": "7dafeda84c9c0654a76007e21bfb510147f2b933",
-    "workingTreeDirty": true,
-    "githubMainCommit": "cc9c53ddadf1d819da0990fbe7cb14ff94ebd03c",
-    "committedOrPushed": false,
-    "releaseSnapshot": ".local-backups/deploy-stoner-reviews-2026-10-26/"
+    "branch": "codex/stoner-reviews-improvements",
+    "baseCommit": "2eea96dc14cd24030a7fb528aa47f7707e662cee",
+    "applicationCommit": "b189352e2ded334a5ed5d05f70eb47ae7c3f487b",
+    "githubMainCommitAtPublication": "b189352e2ded334a5ed5d05f70eb47ae7c3f487b"
   },
-  "domains": {
-    "primary": "stoner.reviews",
-    "zoneId": "1aec63e5ada0aa42efe55964aee2fd35",
-    "legacy": "stoner.danimaslo.dev",
-    "legacyRedirectStatus": 308,
-    "legacyPathAndQueryPreserved": true
-  },
+  "cloudflareVersionId": "079ed5cb-c6a7-4bbd-bc95-0a2e6c49053c",
+  "previousCloudflareVersionId": "7fff95f5-312d-4e97-9137-0f7112265633",
+  "cloudflareBuildUrl": "https://dash.cloudflare.com/d4ff220754fe194748e128743cb69f01/workers/services/view/stoner-reviews/production/builds/11ee711f-ff5d-483b-9e87-300ed41518dc",
+  "cloudflareBuildStatus": "success",
   "verification": {
-    "traffic": "100%",
+    "trafficAtVerification": "100%",
     "tlsCertificateValidated": true,
-    "authoritativeDnsResolves": true,
-    "cloudflareAndGooglePublicDnsResolve": true,
-    "httpIntegrationTestsPassed": 12,
-    "homepageStatus": 200,
-    "reviewsStatus": 200,
-    "stonerScoresStatus": 200,
-    "individualReviewStatus": 200,
-    "unknownReviewStatus": 404,
-    "apiStatus": 200,
-    "apiPostStatus": 405,
+    "localChecksPassed": 29,
+    "liveChecksPassed": 24,
+    "localOnlyFaultChecksSkippedLive": 5,
+    "publicFiles": 42,
+    "servedAssetByteMatches": 36,
+    "webpImages": 15,
+    "socialPngImages": 6,
+    "allEightPagesVerified": true,
     "fullReviewInInitialHTML": true,
-    "allThreeReviewsMatchLocalTextScoresAndRuntimes": true,
-    "staticAssetsByteMatched": 13,
-    "removedWorkFileUrlsVerified404": 39,
-    "publicFiles": 19,
-    "pageTitle": "Stoner Reviews – Movie Reviews & Recommendations",
-    "notes": [
-      "Local OS/browser retained a negative DNS cache during verification; live checks used public DNS addresses with normal TLS hostname verification.",
-      "Default Python urllib User-Agent receives Cloudflare 1010; curl User-Agent succeeds. No security or bot settings changed.",
-      "Live browser UI verification was deferred by the local DNS cache; the same deployed assets were already visually verified locally."
-    ]
+    "pageSpecificOpenGraphAndTwitter": true,
+    "canonicalOrigin": "https://stoner.reviews",
+    "socialDimensions": [
+      1200,
+      630
+    ],
+    "oldDomainRedirect": 308,
+    "oldDomainPathAndQueryPreserved": true,
+    "apiDataExactlyPreserved": true,
+    "browserCases": 19,
+    "browserOverflowOrJsErrors": false,
+    "maximumObservedCLS": 0.0009514244503445096,
+    "homepageFullPosterBytes": 754640,
+    "reviewsFullPosterBytes": 201974,
+    "lighthouse": "Unavailable; no field CWV or platform-cache claim."
   },
   "database": {
     "name": "stoner-reviews-prod",
-    "id": "7b2c5a8c-8e9b-4eff-9073-a05bc1fc6e27",
-    "jurisdiction": "eu",
     "binding": "DB",
     "editorialReviewCount": 5,
-    "runtimeMinutes": {
-      "fear-and-loathing-in-las-vegas": 118,
-      "coherence": 89,
-      "a-complete-unknown": 141,
-      "the-wolf-of-wall-street": 180,
-      "predator-badlands": 107
-    },
-    "mediaIdentifiers": {
-      "fear-and-loathing-in-las-vegas": {
-        "tmdb_id": 1878,
-        "imdb_id": "tt0120669",
-        "media_type": "movie"
+    "schemaOrDataWrites": false
+  },
+  "report": "../../tests/DEPLOYMENT-2026-10-30.md",
+  "historicalRecords": [
+    {
+      "hostname": "stoner.reviews",
+      "provider": "Cloudflare Workers",
+      "worker": "stoner-reviews",
+      "repository": "https://github.com/Maslostrojovna/stoner-reviews",
+      "status": "deployed-https-verified",
+      "url": "https://stoner.reviews/",
+      "cloudflareVersionId": "ea5f58b0-8d61-4a9b-8b57-6f46f339e466",
+      "previousCloudflareVersionId": "faa1cbce-67e5-458e-a327-21cb016a3614",
+      "publishedDate": "2026-10-26",
+      "publishedAtLocal": "2026-10-26T22:19:03+01:00",
+      "timezone": "Europe/Prague",
+      "deploymentMethod": "GitHub main push → Cloudflare Workers Builds (npm run build; npm run deploy)",
+      "source": {
+        "branch": "codex/session-2026-10-23",
+        "baseCommit": "7dafeda84c9c0654a76007e21bfb510147f2b933",
+        "workingTreeDirty": true,
+        "githubMainCommit": "cc9c53ddadf1d819da0990fbe7cb14ff94ebd03c",
+        "committedOrPushed": false,
+        "releaseSnapshot": ".local-backups/deploy-stoner-reviews-2026-10-26/"
       },
-      "coherence": {
-        "tmdb_id": 220289,
-        "imdb_id": "tt2866360",
-        "media_type": "movie"
+      "domains": {
+        "primary": "stoner.reviews",
+        "zoneId": "1aec63e5ada0aa42efe55964aee2fd35",
+        "legacy": "stoner.danimaslo.dev",
+        "legacyRedirectStatus": 308,
+        "legacyPathAndQueryPreserved": true
       },
-      "a-complete-unknown": {
-        "tmdb_id": 661539,
-        "imdb_id": "tt11563598",
-        "media_type": "movie"
+      "verification": {
+        "traffic": "100%",
+        "tlsCertificateValidated": true,
+        "authoritativeDnsResolves": true,
+        "cloudflareAndGooglePublicDnsResolve": true,
+        "httpIntegrationTestsPassed": 12,
+        "homepageStatus": 200,
+        "reviewsStatus": 200,
+        "stonerScoresStatus": 200,
+        "individualReviewStatus": 200,
+        "unknownReviewStatus": 404,
+        "apiStatus": 200,
+        "apiPostStatus": 405,
+        "fullReviewInInitialHTML": true,
+        "allThreeReviewsMatchLocalTextScoresAndRuntimes": true,
+        "staticAssetsByteMatched": 13,
+        "removedWorkFileUrlsVerified404": 39,
+        "publicFiles": 19,
+        "pageTitle": "Stoner Reviews – Movie Reviews & Recommendations",
+        "notes": [
+          "Local OS/browser retained a negative DNS cache during verification; live checks used public DNS addresses with normal TLS hostname verification.",
+          "Default Python urllib User-Agent receives Cloudflare 1010; curl User-Agent succeeds. No security or bot settings changed.",
+          "Live browser UI verification was deferred by the local DNS cache; the same deployed assets were already visually verified locally."
+        ]
       },
-      "the-wolf-of-wall-street": {
-        "tmdb_id": 106646,
-        "imdb_id": "tt0993846",
-        "media_type": "movie"
+      "database": {
+        "name": "stoner-reviews-prod",
+        "id": "7b2c5a8c-8e9b-4eff-9073-a05bc1fc6e27",
+        "jurisdiction": "eu",
+        "binding": "DB",
+        "editorialReviewCount": 5,
+        "runtimeMinutes": {
+          "fear-and-loathing-in-las-vegas": 118,
+          "coherence": 89,
+          "a-complete-unknown": 141,
+          "the-wolf-of-wall-street": 180,
+          "predator-badlands": 107
+        },
+        "mediaIdentifiers": {
+          "fear-and-loathing-in-las-vegas": {
+            "tmdb_id": 1878,
+            "imdb_id": "tt0120669",
+            "media_type": "movie"
+          },
+          "coherence": {
+            "tmdb_id": 220289,
+            "imdb_id": "tt2866360",
+            "media_type": "movie"
+          },
+          "a-complete-unknown": {
+            "tmdb_id": 661539,
+            "imdb_id": "tt11563598",
+            "media_type": "movie"
+          },
+          "the-wolf-of-wall-street": {
+            "tmdb_id": 106646,
+            "imdb_id": "tt0993846",
+            "media_type": "movie"
+          },
+          "predator-badlands": {
+            "tmdb_id": 1242898,
+            "imdb_id": "tt31227572",
+            "media_type": "movie"
+          }
+        },
+        "brainEffort": {
+          "fear-and-loathing-in-las-vegas": null,
+          "coherence": null,
+          "a-complete-unknown": null,
+          "the-wolf-of-wall-street": 2,
+          "predator-badlands": 2
+        }
       },
-      "predator-badlands": {
-        "tmdb_id": 1242898,
-        "imdb_id": "tt31227572",
-        "media_type": "movie"
+      "githubSourceSync": {
+        "branch": "main",
+        "commit": "eb429a65b073f2934b6bf55be88fca5a657945ba",
+        "pushed": true,
+        "cloudflareBuildStatus": "success",
+        "cloudflareBuildUrl": "https://dash.cloudflare.com/d4ff220754fe194748e128743cb69f01/workers/services/view/stoner-reviews/production/builds/3fba2bc9-7f94-48b4-b2e1-afc3c4dfe1de",
+        "cloudflareVersionId": "ea5f58b0-8d61-4a9b-8b57-6f46f339e466",
+        "liveIntegrationChecksPassed": 12
+      },
+      "databaseOnlyPublication": {
+        "date": "2026-10-26",
+        "migrations": [
+          "0003_add_brain_effort.sql",
+          "0004_add_media_identifiers.sql"
+        ],
+        "reviewCount": 5,
+        "allEditorialDataAndScoresVerified": true,
+        "backup": ".local-backups/d1-identifiers-2026-10-26/production-before.sql",
+        "workerRedeployed": false,
+        "githubPushed": false,
+        "liveApiStatus": 200,
+        "liveReviewUrlsStatus": 200,
+        "note": "Production API still omits new ID/Brain Effort fields and new posters await deployment."
       }
-    },
-    "brainEffort": {
-      "fear-and-loathing-in-las-vegas": null,
-      "coherence": null,
-      "a-complete-unknown": null,
-      "the-wolf-of-wall-street": 2,
-      "predator-badlands": 2
     }
-  },
-  "githubSourceSync": {
-    "branch": "main",
-    "commit": "eb429a65b073f2934b6bf55be88fca5a657945ba",
-    "pushed": true,
-    "cloudflareBuildStatus": "success",
-    "cloudflareBuildUrl": "https://dash.cloudflare.com/d4ff220754fe194748e128743cb69f01/workers/services/view/stoner-reviews/production/builds/3fba2bc9-7f94-48b4-b2e1-afc3c4dfe1de",
-    "cloudflareVersionId": "ea5f58b0-8d61-4a9b-8b57-6f46f339e466",
-    "liveIntegrationChecksPassed": 12
-  },
-  "databaseOnlyPublication": {
-    "date": "2026-10-26",
-    "migrations": [
-      "0003_add_brain_effort.sql",
-      "0004_add_media_identifiers.sql"
-    ],
-    "reviewCount": 5,
-    "allEditorialDataAndScoresVerified": true,
-    "backup": ".local-backups/d1-identifiers-2026-10-26/production-before.sql",
-    "workerRedeployed": false,
-    "githubPushed": false,
-    "liveApiStatus": 200,
-    "liveReviewUrlsStatus": 200,
-    "note": "Production API still omits new ID/Brain Effort fields and new posters await deployment."
-  }
+  ]
 }

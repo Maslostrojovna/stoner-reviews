@@ -1,5 +1,9 @@
 # Image optimization — approved implementation, 30 October 2026
 
+**Pre-publication implementation record. Subsequently published with approval;
+see [production verification](DEPLOYMENT-2026-10-30.md). Historical local-only
+statements below describe the development stage.**
+
 Branch: `codex/stoner-reviews-improvements`, in the sibling
 `Stoner Reviews Improvements` worktree, based on main `2eea96d`.
 The user approved the image-audit plan, then specified no version suffix or pixel

@@ -3,8 +3,9 @@
 Approved 30 October 2026. Follow this for future image work and every new review.
 This is a delivery standard, not authorization to publish or change artwork.
 The initial implementation was prepared on `codex/stoner-reviews-improvements`.
-The user separately authorized its publication on 30 October 2026; that approval
-does not authorize future releases. See the release record for verified results.
+It was published with separate authorization on 30 October 2026 (b189352); that
+approval does not authorize future releases. See
+[release verification](tests/DEPLOYMENT-2026-10-30.md) for results.
 
 ## Preserve the approved artwork
 

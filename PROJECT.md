@@ -1,8 +1,8 @@
 # Stoner Reviews
 
-Publication of the October 30 image/social feature was explicitly authorized.
-The dated local sections below describe its development and verification history;
-see the release record for publication results. Production D1 is unchanged.
+The October 30 image/social feature is published on https://stoner.reviews
+(application commit b189352). See [release verification](tests/DEPLOYMENT-2026-10-30.md).
+The dated local sections below describe development history; production D1 is unchanged.
 
 ## Standing image workflow
 
