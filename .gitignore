@@ -2,7 +2,7 @@
 .wrangler/
 
 # Installed build tooling and local credentials.
-node_modules/
+node_modules
 .dev.vars*
 .env*
 .DS_Store

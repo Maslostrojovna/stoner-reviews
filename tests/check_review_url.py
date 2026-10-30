@@ -87,7 +87,7 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertIn(("link", {"rel": "canonical", "href": "https://stoner.reviews" + PATH}), document.elements)
         self.assertEqual(sum(tag == "h1" for tag, _ in document.elements), 1)
         self.assertFalse(any(tag == "details" for tag, _ in document.elements))
-        self.assertTrue(all(attrs.get("src") == "/theme.js"
+        self.assertTrue(all(attrs.get("src") == "/theme.js" or "data-theme-bootstrap" in attrs
                             for tag, attrs in document.elements if tag == "script"))
 
     def test_direct_request_and_reload(self):
@@ -163,14 +163,14 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertEqual(status, 200)
         document = Document(html)
         text = normalize("".join(document.text))
-        for label in ["Fun", "Action", "Mind-blowing", "Smart", "Feels", "Brain Effort", "Overall",
-                      "Brain off", "Easy does it", "Pay attention", "Keep up", "Full CPU usage"]:
+        for label in ["Fun", "Action", "Mind-blowing", "Smart", "Feels", "Brain Effort", "Overall"]:
             self.assertIn(label, text)
-        self.assertIn("Brain Effort doesn't measure quality.", text)
-        self.assertIn("not a mathematical average of the other scores", text)
+        self.assertIn("How much concentration the movie demands.", text)
+        self.assertNotIn("Full CPU usage", text)
+        self.assertIn("not an average of the other scores", text)
         self.assertIn(("link", {"rel": "canonical", "href": "https://stoner.reviews/stoner-scores/"}), document.elements)
         self.assertEqual(sum(tag == "h1" for tag, _ in document.elements), 1)
-        self.assertEqual(sum(tag == "li" for tag, _ in document.elements), 5)
+        self.assertEqual(sum(tag == "li" for tag, _ in document.elements), 0)
         self.assertEqual(get("/stoner-scores/")[2], html)
 
     def test_consistent_primary_navigation(self):
@@ -214,7 +214,7 @@ class ReviewURLChecks(unittest.TestCase):
         wolf = next(review for review in reviews if review["slug"] == "the-wolf-of-wall-street")
         self.assertEqual(wolf["runtime_minutes"], 180)
         self.assertEqual(wolf["release_year"], 2013)
-        self.assertEqual(wolf["tagline"], "An awful person. Excellent company.")
+        self.assertEqual(wolf["tagline"], "An awful person but excellent company.")
         self.assertEqual([wolf[key] for key in ["fun", "action", "mind_blowing", "smart", "feels", "brain_effort", "overall"]],
                          [5, 4, 3, 4, 2, 2, 5])
         approved_effort = {"fear-and-loathing-in-las-vegas": 2, "coherence": 4, "a-complete-unknown": 2}
@@ -226,7 +226,7 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertIn("The Wolf of Wall Street (2013) review — Stoner Reviews", html)
         self.assertIn('datetime="PT180M">3h</time>', html)
         self.assertIn("Brain Effort", html)
-        self.assertIn("Attention required", html)
+        self.assertNotIn("Attention required", html)
         self.assertEqual(get("/reviews/the-wolf-of-wall-street/")[2], html)
 
     def test_predator_review_has_approved_seven_scores(self):
@@ -235,7 +235,7 @@ class ReviewURLChecks(unittest.TestCase):
         review = next(r for r in json.loads(api)["editorial_reviews"] if r["slug"] == "predator-badlands")
         self.assertEqual(review["runtime_minutes"], 107)
         self.assertEqual(review["release_year"], 2025)
-        self.assertEqual(review["tagline"], "The Predator has friends now. Somehow.")
+        self.assertEqual(review["tagline"], "The Predator somehow has friends now.")
         self.assertEqual([review[k] for k in ["fun", "action", "mind_blowing", "smart", "feels", "brain_effort", "overall"]],
                          [3, 5, 3, 2, 3, 2, 4])
         path = "/reviews/predator-badlands/"
@@ -266,11 +266,35 @@ class ReviewURLChecks(unittest.TestCase):
             with self.subTest(path=path):
                 html = get(path)[2]
                 head = html.split("</head>", 1)[0]
-                self.assertIn('<script src="/theme.js"></script>', head)
-                self.assertLess(head.index('<script src="/theme.js">'), head.index('rel="stylesheet"'))
-                theme_script = next(attrs for tag, attrs in Document(head).elements if tag == "script")
+                elements = Document(head).elements
+                bootstrap = [attrs for tag, attrs in elements if tag == "script" and "data-theme-bootstrap" in attrs]
+                self.assertEqual(len(bootstrap), 1)
+                self.assertNotIn("src", bootstrap[0])
+                self.assertNotIn("defer", bootstrap[0])
+                self.assertLess(head.index("data-theme-bootstrap"), head.index("data-stylesheet"))
+                theme_script = next(attrs for tag, attrs in elements if tag == "script" and attrs.get("src") == "/theme.js")
+                self.assertIn("defer", theme_script)
                 self.assertNotIn("async", theme_script)
-                self.assertNotIn("defer", theme_script)
+
+    def test_page_styles_are_in_initial_html_without_blocking_css_requests(self):
+        expected = {
+            "/": ["/site.css", "/home.css", "/site-nav.css"],
+            "/reviews/": ["/site.css", "/reviews.css", "/site-nav.css"],
+            "/stoner-scores/": ["/site.css", "/scores.css", "/site-nav.css"],
+            PATH: ["/site.css", "/reviews.css", "/site-nav.css"],
+            "/missing-page/": ["/site.css", "/reviews.css", "/site-nav.css"],
+        }
+        for path, stylesheets in expected.items():
+            with self.subTest(path=path):
+                html = get(path)[2]
+                elements = Document(html.split("</head>", 1)[0]).elements
+                self.assertFalse(any(tag == "link" and attrs.get("rel") == "stylesheet" for tag, attrs in elements))
+                self.assertEqual([attrs["data-stylesheet"] for tag, attrs in elements
+                                  if tag == "style" and "data-stylesheet" in attrs], stylesheets)
+                for stylesheet in stylesheets:
+                    status, _, css = get(stylesheet)
+                    self.assertEqual(status, 200)
+                    self.assertIn(css, html)
 
 
 if __name__ == "__main__":

@@ -79,7 +79,7 @@ class ImageChecks(unittest.TestCase):
                     self.assertEqual(image["width"], image["height"])
                     self.assertGreater(int(image["width"]), 0)
                     self.assertEqual(image["decoding"], "async")
-                    self.assertEqual(image["fetchpriority"], "high" if path == "/" and index == 0 else "auto")
+                    self.assertEqual(image["fetchpriority"], "high" if (path == "/" and index == 0) or path not in ["/", "/reviews/"] else "auto")
                     self.assertEqual([width for _, width in candidates(image)], [320, 720, 1152])
                     for url, _ in candidates(image):
                         self.assertRegex(url, r"-stoner-reviews\.webp$")
@@ -88,9 +88,12 @@ class ImageChecks(unittest.TestCase):
                         self.assertIn("calc(100vw - 36px)", image["sizes"])
                         self.assertTrue(image["src"].endswith("-stoner-reviews.webp"))
                         self.assertNotIn("-thumbnail-", image["src"])
-                    else:
-                        self.assertIn("88px, 144px", image["sizes"])
+                    elif path == "/reviews/":
+                        self.assertIn("200px, 256px", image["sizes"])
                         self.assertIn("-thumbnail-stoner-reviews.webp", image["src"])
+                    else:
+                        self.assertIn("400px", image["sizes"])
+                        self.assertIn("-large-stoner-reviews.webp", image["src"])
 
     def test_every_candidate_response_has_matching_type_and_dimensions(self):
         art = [i for i in Images(get("/")[2]).images if "srcset" in i]
@@ -126,11 +129,45 @@ class ImageChecks(unittest.TestCase):
             with self.subTest(original=name):
                 self.assertEqual(get("/posters/" + name)[0], 200)
 
-    def test_scores_has_only_the_existing_named_vector_logo(self):
+    def test_review_icons_and_overall_tickets_retain_text_scores(self):
+        labels = {"fun": "Fun", "action": "Action", "mind_blowing": "Mind-blowing",
+                  "smart": "Smart", "feels": "Feels", "brain_effort": "Brain Effort"}
+        tickets = {1: "hard-pass", 2: "maybe-another-night", 3: "worth-the-trip",
+                   4: "a-proper-treat", 5: "peak-cinema"}
+        for review in self.reviews:
+            path = f'/reviews/{quote(review["slug"], safe="")}/'
+            with self.subTest(path=path):
+                status, _, body = get(path)
+                self.assertEqual(status, 200)
+                images = Images(body).images
+                text = body.decode()
+                for key, label in labels.items():
+                    if not isinstance(review.get(key), int) or not 1 <= review[key] <= 5:
+                        continue
+                    url = f'/icons/stoner-scores/{key.replace("_", "-")}-stoner-reviews.svg'
+                    icon = next(i for i in images if i["src"] == url)
+                    self.assertEqual(icon["alt"], "")
+                    self.assertEqual(icon["aria-hidden"], "true")
+                    self.assertIn(f"<span>{label}</span>", text)
+                    self.assertEqual(get(url)[0], 200)
+                score = review.get("overall")
+                if isinstance(score, int) and score in tickets:
+                    url = f'/icons/stoner-scores/overall-{score}-{tickets[score]}-stoner-reviews.svg'
+                    icon = next(i for i in images if i["src"] == url)
+                    self.assertEqual(icon["alt"], "")
+                    self.assertIn(f"Overall: <strong>{score}/5</strong>", text)
+                    self.assertEqual(get(url)[0], 200)
+
+    def test_scores_has_named_logo_and_six_decorative_category_icons(self):
         images = Images(get("/stoner-scores/")[2]).images
-        self.assertEqual(len(images), 1)
+        self.assertEqual(len(images), 7)
         self.assertEqual(images[0]["src"], "/logos/stoner-reviews-v7-transparent.svg")
         self.assertEqual(images[0]["alt"], "Stoner Reviews")
+        for image in images[1:]:
+            self.assertTrue(image["src"].startswith("/icons/stoner-scores/"))
+            self.assertEqual(image["alt"], "")
+            self.assertEqual(image["aria-hidden"], "true")
+            self.assertEqual(get(image["src"])[0], 200)
 
 
 if __name__ == "__main__":

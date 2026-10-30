@@ -61,3 +61,23 @@ img { max-width: 100%; height: auto; }
   .page-header .site-nav { grid-column: 1 / -1; grid-row: 2; margin: 0; gap: 24px; }
   .page-header .theme-toggle { grid-column: 2; grid-row: 1; padding-left: 0; border-left: 0; }
 }
+
+/* Shared illustrated scores: the labels and values remain real text. */
+.review-overall { display: flex; align-items: center; gap: 18px; margin-block: 20px 0; }
+.overall-ticket { display: block; flex: 0 0 auto; width: 176px; height: 110px; object-fit: contain; }
+.review-overall p { margin: 0; font-size: 14px; }
+.review-overall strong { color: var(--sr-accent); font-variant-numeric: tabular-nums; }
+.overall-verdict { display: block; margin-top: 3px; color: var(--sr-muted); font-size: 13px; }
+.ratings { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 20px 12px; margin: 28px 0; padding-block: 24px; border-block: var(--sr-rule); text-align: center; }
+.rating { min-width: 0; }
+.rating dt { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 13px; line-height: 1.4; }
+.score-icon { display: block; width: 64px; height: 64px; object-fit: contain; }
+.rating dd { margin: 8px 0 0; font-variant-numeric: tabular-nums; font-size: 13px; }
+.rating-value { color: var(--sr-accent); font-size: 22px; font-weight: 700; }
+.rating-dots { display: flex; justify-content: center; gap: 4px; margin-top: 6px; }
+.rating-dots .sr-rating-dot { width: 8px; height: 8px; }
+@media (max-width: 700px) {
+  .ratings { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px 8px; }
+  .rating dt { font-size: 12px; }
+  .review-overall { gap: 14px; }
+}

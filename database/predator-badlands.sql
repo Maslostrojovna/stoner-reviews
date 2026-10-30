@@ -8,7 +8,7 @@ INSERT INTO editorial_reviews (
     'Predator: Badlands',
     2025,
     107,
-    'The Predator has friends now. Somehow.',
+    'The Predator somehow has friends now.',
     'Spectacular alien combat, beautifully choreographed fights and glowing weaponry. Add a chatty android, an adorable baby monster and a planet that seems personally offended by the existence of visitors.',
     'The opening duel in *Predator: Badlands* is a lovely reminder that the Yautja could probably sustain an entire martial arts franchise of their own. Dek and his older brother Kwei keep changing the distance between them: one moment circling, the next crashing together in a burst of glowing blades. The light flashes across their armour as they duck, twist and counterattack. These are creatures we''re used to seeing stalk humans through jungles. Watching them fight someone their own size is a different pleasure.
 

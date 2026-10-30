@@ -117,7 +117,7 @@ class SocialMetadataChecks(unittest.TestCase):
             ("/reviews/", "Movie reviews — Stoner Reviews",
              "Movie recommendations for watching high, with honest reviews and five independent mood ratings."),
             ("/stoner-scores/", "Stoner Scores — Our movie rating system | Stoner Reviews",
-             "How Stoner Scores work: seven independent movie ratings, including Brain Effort and our Overall recommendation."),
+             "Six movie rating categories explained, plus our independent Overall editorial recommendation."),
         ]
         for path, title, description in pages:
             with self.subTest(path=path):
@@ -168,6 +168,16 @@ class SocialMetadataChecks(unittest.TestCase):
     def test_unknown_review_has_no_social_identity(self):
         for path in ["/reviews/no-such-film/", "/reviews/no-such-film"]:
             self.assert_unindexable(path, 404)
+
+    @unittest.skipUnless(HARNESS, "Local test entry only")
+    def test_unavailable_inline_css_keeps_original_stylesheet_links(self):
+        status, _, body = get("/", {"x-test-scenario": "css-unavailable"})
+        self.assertEqual(status, 200)
+        head = Head(body)
+        self.assertEqual([attrs["href"] for tag, attrs in head.tags
+                          if tag == "link" and attrs.get("rel") == "stylesheet"],
+                         ["/site.css", "/home.css", "/site-nav.css"])
+        self.assertEqual(head.meta["og:url"], [ORIGIN + "/"])
 
     @unittest.skipUnless(HARNESS, "Local test entry only")
     def test_database_errors_have_no_indexable_metadata(self):

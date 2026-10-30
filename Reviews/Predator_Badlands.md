@@ -2,7 +2,7 @@
 
 **Watch time:** 1h 47m
 
-*The Predator has friends now. Somehow.*
+*The Predator somehow has friends now.*
 
 ### Short verdict
 

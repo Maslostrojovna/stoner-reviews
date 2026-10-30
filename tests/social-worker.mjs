@@ -30,6 +30,10 @@ export default {
       url.protocol = "https:";
       request = new Request(url, request);
     }
-    return worker.fetch(request, { ...env, DB }, context);
+    const ASSETS = scenario === "css-unavailable" ? { fetch(assetRequest) {
+      if (new URL(assetRequest.url).pathname.endsWith(".css")) return new Response("", { status: 503 });
+      return env.ASSETS.fetch(assetRequest);
+    } } : env.ASSETS;
+    return worker.fetch(request, { ...env, DB, ASSETS }, context);
   },
 };

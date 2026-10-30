@@ -4,6 +4,18 @@ import path from "node:path";
 
 // An explicit website-only upload boundary. Keep source docs and experiments out.
 const allowed = new Set([
+  "icons/stoner-scores/fun-stoner-reviews.svg",
+  "icons/stoner-scores/action-stoner-reviews.svg",
+  "icons/stoner-scores/mind-blowing-stoner-reviews.svg",
+  "icons/stoner-scores/smart-stoner-reviews.svg",
+  "icons/stoner-scores/feels-stoner-reviews.svg",
+  "icons/stoner-scores/brain-effort-stoner-reviews.svg",
+  "icons/stoner-scores/overall-1-hard-pass-stoner-reviews.svg",
+  "icons/stoner-scores/overall-2-maybe-another-night-stoner-reviews.svg",
+  "icons/stoner-scores/overall-3-worth-the-trip-stoner-reviews.svg",
+  "icons/stoner-scores/overall-4-a-proper-treat-stoner-reviews.svg",
+  "icons/stoner-scores/overall-5-peak-cinema-stoner-reviews.svg",
+
   "_headers", "index.html", "404.html", "reviews.html", "review.html",
   "site.css", "home.css", "reviews.css", "site-nav.css", "theme.js",
   "review-renderer.js", "reviews.js",

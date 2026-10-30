@@ -8,7 +8,7 @@ INSERT INTO editorial_reviews (
     'The Wolf of Wall Street',
     2013,
     180,
-    'An awful person. Excellent company.',
+    'An awful person but excellent company.',
     'Leonardo DiCaprio turns a greedy, dishonest stockbroker into someone you genuinely want to succeed. Three hours of monstrous behaviour, ridiculous comedy and the uneasy discovery that you''re on the wrong side.',
     'Jordan Belfort is a crook. Not a charming rogue who occasionally bends the rules. A proper, unrepentant crook who makes a fortune convincing people to buy rubbish. And yet, within half an hour of *The Wolf of Wall Street*, I was firmly on his side.
 
@@ -20,12 +20,12 @@ And it''s genuinely hilarious. The Quaalude sequence, with DiCaprio attempting b
 
 ## Why watch it high?
 
-*The Wolf of Wall Street* is a fantastic film to watch high because it invites you to a party you know you shouldn''t be enjoying. Three hours later, you might still be cheering for the host, despite knowing exactly what he''s done.
+*The Wolf of Wall Street* is outrageously entertaining when you''re high. The speeches, the parties, the spectacularly terrible decisions. Scorsese keeps turning everything up until even the most absurd behaviour starts to seem perfectly normal.
 
 There''s something beautifully ridiculous about watching people take heroic quantities of drugs while you''ve settled in with a much quieter evening. The speeches get louder, the decisions get worse, and the physical comedy eventually reaches a level that barely seems human.
 
-You don''t need to concentrate on intricate plotting. Just enjoy the spectacle, catch the brilliant throwaway lines, and occasionally remember that the person you''ve been cheering for is an absolute bastard.',
-    '*The Wolf of Wall Street* is a fantastic film to watch high because it invites you to a party you know you shouldn''t be enjoying. Three hours later, you might still be cheering for the host, despite knowing exactly what he''s done.',
+No need to make sense of it all. Catch the brilliant throwaway lines and marvel at DiCaprio''s complete lack of restraint. Three hours have rarely gone by so quickly. Enjoy the ride. There won''t be another quite like it any time soon.',
+    '*The Wolf of Wall Street* is outrageously entertaining when you''re high. The speeches, the parties, the spectacularly terrible decisions. Scorsese keeps turning everything up until even the most absurd behaviour starts to seem perfectly normal.',
     5,
     4,
     3,

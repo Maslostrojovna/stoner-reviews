@@ -2,7 +2,7 @@
 
 **Watch time:** 3h
 
-**Tagline:** An awful person. Excellent company.
+**Tagline:** An awful person but excellent company.
 
 ## Short verdict
 
@@ -20,11 +20,11 @@ And it's genuinely hilarious. The Quaalude sequence, with DiCaprio attempting ba
 
 ## Why watch it high?
 
-*The Wolf of Wall Street* is a fantastic film to watch high because it invites you to a party you know you shouldn't be enjoying. Three hours later, you might still be cheering for the host, despite knowing exactly what he's done.
+*The Wolf of Wall Street* is outrageously entertaining when you're high. The speeches, the parties, the spectacularly terrible decisions. Scorsese keeps turning everything up until even the most absurd behaviour starts to seem perfectly normal.
 
 There's something beautifully ridiculous about watching people take heroic quantities of drugs while you've settled in with a much quieter evening. The speeches get louder, the decisions get worse, and the physical comedy eventually reaches a level that barely seems human.
 
-You don't need to concentrate on intricate plotting. Just enjoy the spectacle, catch the brilliant throwaway lines, and occasionally remember that the person you've been cheering for is an absolute bastard.
+No need to make sense of it all. Catch the brilliant throwaway lines and marvel at DiCaprio's complete lack of restraint. Three hours have rarely gone by so quickly. Enjoy the ride. There won't be another quite like it any time soon.
 
 ## Stoner Scores
 
