@@ -47,6 +47,10 @@ const allowed = new Set([
   "social/a-complete-unknown-2024-stoner-reviews.png",
   "social/the-wolf-of-wall-street-2013-stoner-reviews.png",
   "social/predator-badlands-2025-stoner-reviews.png",
+  "posters/paradise-2025-thumbnail-stoner-reviews.webp",
+  "posters/paradise-2025-stoner-reviews.webp",
+  "posters/paradise-2025-large-stoner-reviews.webp",
+  "social/paradise-2025-stoner-reviews.png",
 ]);
 const root = fileURLToPath(new URL("../Deployment/test-brand-reference-cloudflare/public/", import.meta.url));
 const actual = new Set();

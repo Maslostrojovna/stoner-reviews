@@ -12,6 +12,7 @@ const artwork = new Map([
   ["a-complete-unknown-2024", "a-complete-unknown-2024"],
   ["the-wolf-of-wall-street-2013", "the-wolf-of-wall-street-2013"],
   ["predator-badlands-2025", "predator-badlands-2025"],
+  ["paradise-2025", "paradise-2025"],
 ]);
 
 function escapeHTML(value) {
@@ -77,6 +78,7 @@ export function renderReview(review, { detail = false, eager = true } = {}) {
   const watchTime = Number.isInteger(runtime) && runtime > 0
     ? [Math.floor(runtime / 60) ? `${Math.floor(runtime / 60)}h` : "", runtime % 60 ? `${runtime % 60}m` : ""].filter(Boolean).join(" ")
     : "";
+  const episode = review.media_type === "tv";
   const ratings = renderRatings(review);
 
   return `<article class="review-card${detail ? " review-card--detail" : ""}" id="${escapeHTML(review.slug)}">
@@ -85,7 +87,7 @@ export function renderReview(review, { detail = false, eager = true } = {}) {
       <div class="review-heading">
         ${review.release_year != null ? `<p class="review-year">${escapeHTML(review.release_year)}</p>` : ""}
         <${heading} class="review-title sr-display">${detail ? title : `<a class="sr-review-link" href="${permalink}">${title}</a>`}</${heading}>
-        ${watchTime ? `<p class="review-watch-time">Watch time: <time datetime="PT${runtime}M">${watchTime}</time></p>` : ""}
+        ${watchTime ? `<p class="review-watch-time">Watch time: ${episode ? "~" : ""}<time datetime="PT${runtime}M">${episode ? `${runtime} minutes` : watchTime}</time>${episode ? " per episode" : ""}</p>` : ""}
         ${review.tagline ? `<p class="review-tagline">${escapeHTML(review.tagline)}</p>` : ""}
         ${renderOverall(review.overall, { showVerdict: !detail })}
         ${detail && review.verdict ? `<p class="review-verdict">${escapeHTML(review.verdict)}</p>` : ""}
