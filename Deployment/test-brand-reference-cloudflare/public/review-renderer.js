@@ -1,5 +1,13 @@
 export const REVIEW_AUTHOR = "Dani Maslo";
 
+export function reviewSlug({ slug, release_year: year }) {
+  return Number.isInteger(year) && !slug.endsWith(`-${year}`) ? `${slug}-${year}` : slug;
+}
+
+export function reviewPath(review) {
+  return `/reviews/${encodeURIComponent(reviewSlug(review))}/`;
+}
+
 // Shared by the Pages Function and the browser so both return the same cards.
 const dimensions = [
   ["fun", "Fun"], ["action", "Action"], ["mind_blowing", "Mind-blowing"],
@@ -75,7 +83,7 @@ function renderRatings(review) {
 export function renderReview(review, { detail = false, eager = true } = {}) {
   const heading = detail ? "h1" : "h2";
   const title = escapeHTML(review.movie_title);
-  const permalink = `/reviews/${encodeURIComponent(review.slug)}/`;
+  const permalink = reviewPath(review);
   const runtime = review.runtime_minutes;
   const watchTime = Number.isInteger(runtime) && runtime > 0
     ? [Math.floor(runtime / 60) ? `${Math.floor(runtime / 60)}h` : "", runtime % 60 ? `${runtime % 60}m` : ""].filter(Boolean).join(" ")
@@ -112,7 +120,7 @@ export function renderReviews(reviews) {
 
 export function renderReviewPreviews(reviews) {
   return reviews.map((review, index) => {
-    const url = `/reviews/${encodeURIComponent(review.slug)}/`;
+    const url = reviewPath(review);
     const title = escapeHTML(review.movie_title);
     // The first poster can be LCP at the wide single-column breakpoint.
     const image = renderArtwork(review, { preview: true, eager: index < 3, priority: index === 0 ? "high" : "auto" });

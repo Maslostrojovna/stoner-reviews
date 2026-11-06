@@ -6,8 +6,9 @@ import sys
 import unittest
 from html.parser import HTMLParser
 from urllib.error import HTTPError
-from urllib.parse import quote
 from urllib.request import Request, urlopen
+
+from review_paths import review_path
 
 BASE = (sys.argv.pop(1) if len(sys.argv) > 1 else "http://127.0.0.1:8792").rstrip("/")
 
@@ -65,13 +66,13 @@ class ImageChecks(unittest.TestCase):
         cls.reviews = json.loads(body)["editorial_reviews"]
 
     def test_artwork_is_in_raw_html_with_film_year_alt_and_reserved_space(self):
-        paths = ["/", "/reviews/"] + [f'/reviews/{quote(r["slug"], safe="")}/' for r in self.reviews]
+        paths = ["/", "/reviews/"] + [review_path(r) for r in self.reviews]
         for path in paths:
             with self.subTest(path=path):
                 status, _, body = get(path)
                 self.assertEqual(status, 200)
                 art = [i for i in Images(body).images if i["src"].startswith("/posters/")]
-                reviews = self.reviews if path in ["/", "/reviews/"] else [r for r in self.reviews if path == f'/reviews/{quote(r["slug"], safe="")}/']
+                reviews = self.reviews if path in ["/", "/reviews/"] else [r for r in self.reviews if path == review_path(r)]
                 self.assertEqual(len(art), len(reviews))
                 for index, (image, review) in enumerate(zip(art, reviews)):
                     film = review["movie_title"] + (f' ({review["release_year"]})' if review["release_year"] is not None else "")
@@ -120,7 +121,7 @@ class ImageChecks(unittest.TestCase):
             self.assertEqual([i["loading"] for i in art],
                              ["eager"] * eager_count + ["lazy"] * (len(art) - eager_count))
         for review in self.reviews:
-            art = [i for i in Images(get(f'/reviews/{quote(review["slug"], safe="")}/')[2]).images if "srcset" in i]
+            art = [i for i in Images(get(review_path(review))[2]).images if "srcset" in i]
             self.assertEqual(art[0]["loading"], "eager")
 
     def test_original_public_images_still_resolve(self):
@@ -135,7 +136,7 @@ class ImageChecks(unittest.TestCase):
         tickets = {1: "hard-pass", 2: "maybe-another-night", 3: "worth-the-trip",
                    4: "a-proper-treat", 5: "peak-cinema"}
         for review in self.reviews:
-            path = f'/reviews/{quote(review["slug"], safe="")}/'
+            path = review_path(review)
             with self.subTest(path=path):
                 status, _, body = get(path)
                 self.assertEqual(status, 200)

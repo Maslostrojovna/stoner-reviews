@@ -18,20 +18,26 @@ async function canvas(buffer, width, height, output) {
 async function main() {
   const output = path.join(publicRoot, "social");
   await fs.mkdir(output, { recursive: true });
-  // The complete lockup stays inside the central 630px square, with 15px
-  // horizontal breathing room even under a centered square crop. No slogans.
-  await canvas(await fs.readFile(path.join(publicRoot, "logos/stoner-reviews-v7-transparent.svg")),
-    600, 400, path.join(output, "homepage-stoner-reviews.png"));
-  for (const [source, target] of [
-    ["fear-and-loathing-1998.png", "fear-and-loathing-1998-stoner-reviews.png"],
-    ["coherence-2013.svg", "coherence-2013-stoner-reviews.png"],
-    ["a-complete-unknown-2024.svg", "a-complete-unknown-2024-stoner-reviews.png"],
-    ["the-wolf-of-wall-street-2013.svg", "the-wolf-of-wall-street-2013-stoner-reviews.png"],
-    ["predator-badlands-2025.svg", "predator-badlands-2025-stoner-reviews.png"],
+  if (!process.argv.includes("--reviews-only")) {
+    // The complete lockup stays inside the central 630px square, with 15px
+    // horizontal breathing room even under a centered square crop. No slogans.
+    await canvas(await fs.readFile(path.join(publicRoot, "logos/stoner-reviews-v7-transparent.svg")),
+      600, 400, path.join(output, "homepage-stoner-reviews.png"));
+  }
+
+  // Use the approved PNGs from the shared editorial library.
+  const reviews = path.resolve(root, "../../Reviews");
+  for (const [folder, stem] of [
+    ["fear-and-loathing-in-las-vegas-1998", "fear-and-loathing-1998"],
+    ["coherence-2013", "coherence-2013"],
+    ["a-complete-unknown-2024", "a-complete-unknown-2024"],
+    ["the-wolf-of-wall-street-2013", "the-wolf-of-wall-street-2013"],
+    ["predator-badlands-2025", "predator-badlands-2025"],
+    ["paradise-2025", "paradise-2025"],
   ]) {
-    // Contain the entire approved poster, including title/tagline, without crops.
-    await canvas(await fs.readFile(path.join(publicRoot, "posters", source)),
-      570, 570, path.join(output, target));
+    // Keep the full poster, with 10px above and below it.
+    await canvas(await fs.readFile(path.join(reviews, folder, stem + ".png")),
+      610, 610, path.join(output, stem + "-stoner-reviews.png"));
   }
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

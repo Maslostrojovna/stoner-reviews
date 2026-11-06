@@ -13,8 +13,10 @@ from html.parser import HTMLParser
 from urllib.error import HTTPError
 from urllib.request import HTTPRedirectHandler, Request, build_opener
 
+from review_paths import review_path
+
 BASE = (sys.argv.pop(1) if len(sys.argv) > 1 else "http://127.0.0.1:8788").rstrip("/")
-PATH = "/reviews/fear-and-loathing-in-las-vegas/"
+PATH = "/reviews/fear-and-loathing-in-las-vegas-1998/"
 
 
 class NoRedirect(HTTPRedirectHandler):
@@ -105,6 +107,11 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertFalse(any(tag == "link" and attrs.get("rel") == "canonical"
                              for tag, attrs in Document(html).elements))
 
+    def test_legacy_review_redirect_preserves_query(self):
+        status, headers, _ = get("/reviews/fear-and-loathing-in-las-vegas/?from=old")
+        self.assertEqual(status, 308)
+        self.assertEqual(headers["Location"], BASE + PATH + "?from=old")
+
     def test_slash_redirect(self):
         status, headers, _ = get(PATH.rstrip("/"))
         self.assertEqual(status, 308)
@@ -134,7 +141,7 @@ class ReviewURLChecks(unittest.TestCase):
         api_status, _, api_body = get("/api/editorial-reviews")
         self.assertEqual(api_status, 200)
         for review in json.loads(api_body)["editorial_reviews"]:
-            path = f'/reviews/{review["slug"]}/'
+            path = review_path(review)
             self.assertIn(f'href="{path}"', html)
             self.assertEqual(get(path)[0], 200)
 
@@ -192,7 +199,7 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertEqual(status, 200)
         for review in json.loads(body)["editorial_reviews"]:
             with self.subTest(review=review["slug"]):
-                status, _, html = get(f'/reviews/{review["slug"]}/')
+                status, _, html = get(review_path(review))
                 self.assertEqual(status, 200)
                 text = normalize("".join(Document(html).text))
                 for block in re.split(r"\n\s*\n", review["body_md"].strip()):
@@ -222,13 +229,13 @@ class ReviewURLChecks(unittest.TestCase):
         for review in reviews:
             if review["slug"] in approved_effort:
                 self.assertEqual(review["brain_effort"], approved_effort[review["slug"]])
-        status, _, html = get("/reviews/the-wolf-of-wall-street/")
+        status, _, html = get("/reviews/the-wolf-of-wall-street-2013/")
         self.assertEqual(status, 200)
         self.assertIn("The Wolf of Wall Street (2013) review — Stoner Reviews", html)
         self.assertIn('datetime="PT180M">3h</time>', html)
         self.assertIn("Brain Effort", html)
         self.assertNotIn("Attention required", html)
-        self.assertEqual(get("/reviews/the-wolf-of-wall-street/")[2], html)
+        self.assertEqual(get("/reviews/the-wolf-of-wall-street-2013/")[2], html)
 
     def test_predator_review_has_approved_seven_scores(self):
         status, _, api = get("/api/editorial-reviews")
@@ -239,7 +246,7 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertEqual(review["tagline"], "The Predator somehow has friends now.")
         self.assertEqual([review[k] for k in ["fun", "action", "mind_blowing", "smart", "feels", "brain_effort", "overall"]],
                          [3, 5, 3, 2, 3, 2, 4])
-        path = "/reviews/predator-badlands/"
+        path = "/reviews/predator-badlands-2025/"
         status, _, html = get(path)
         self.assertEqual(status, 200)
         self.assertIn("Predator: Badlands (2025) review — Stoner Reviews", html)

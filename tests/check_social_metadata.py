@@ -10,8 +10,10 @@ import sys
 import unittest
 from html.parser import HTMLParser
 from urllib.error import HTTPError
-from urllib.parse import quote, urlsplit
+from urllib.parse import urlsplit
 from urllib.request import HTTPRedirectHandler, Request, build_opener
+
+from review_paths import review_path
 
 BASE = (sys.argv.pop(1) if len(sys.argv) > 1 else "http://127.0.0.1:8792").rstrip("/")
 ORIGIN = "https://stoner.reviews"
@@ -129,7 +131,7 @@ class SocialMetadataChecks(unittest.TestCase):
             with self.subTest(slug=review["slug"]):
                 film = review["movie_title"] + (f' ({review["release_year"]})' if review["release_year"] is not None else "")
                 head, body = self.assert_metadata(
-                    f'/reviews/{quote(review["slug"], safe="")}/', film + " review — Stoner Reviews",
+                    review_path(review), film + " review — Stoner Reviews",
                     (review["verdict"] or "").strip() or (review["tagline"] or "").strip(), "article")
                 self.assertEqual(head.meta["og:image:alt"], [f"Illustrated Stoner Reviews poster for {film}."])
                 images.add(head.meta["og:image"][0])
@@ -137,7 +139,7 @@ class SocialMetadataChecks(unittest.TestCase):
         self.assertEqual(len(images), len(self.reviews))
 
     def test_image_responses_match_declared_dimensions_and_type(self):
-        paths = ["/", "/reviews/", "/stoner-scores/"] + [f'/reviews/{quote(r["slug"], safe="")}/' for r in self.reviews]
+        paths = ["/", "/reviews/", "/stoner-scores/"] + [review_path(r) for r in self.reviews]
         checked = set()
         for path in paths:
             head = Head(get(path)[2])
@@ -181,14 +183,14 @@ class SocialMetadataChecks(unittest.TestCase):
 
     @unittest.skipUnless(HARNESS, "Local test entry only")
     def test_database_errors_have_no_indexable_metadata(self):
-        for path in ["/", "/reviews/", f'/reviews/{self.reviews[0]["slug"]}/']:
+        for path in ["/", "/reviews/", review_path(self.reviews[0])]:
             headers = self.assert_unindexable(path, 503, {"x-test-scenario": "database-error"})
             self.assertEqual(headers["Retry-After"], "60")
 
     @unittest.skipUnless(HARNESS, "Local test entry only")
     def test_stored_quotes_ampersands_and_markup_cannot_inject_tags(self):
         head, _ = self.assert_metadata(
-            "/reviews/metadata-escaping/",
+            review_path({**self.reviews[0], "slug": "metadata-escaping"}),
             'A "quote" & <script id="injected">alert(1)</script> (' + str(self.reviews[0]["release_year"]) + ') review — Stoner Reviews',
             'A "verdict" & </title><meta name="injected" content="yes">',
             "article", {"x-test-scenario": "escaping"})
@@ -200,12 +202,12 @@ class SocialMetadataChecks(unittest.TestCase):
         review = self.reviews[0]
         film = f'{review["movie_title"]} ({review["release_year"]})'
         for scenario, description in [("tagline", review["tagline"]), ("empty-description", "")]:
-            self.assert_metadata(f'/reviews/{review["slug"]}/', film + " review — Stoner Reviews",
+            self.assert_metadata(review_path(review), film + " review — Stoner Reviews",
                                  description, "article", {"x-test-scenario": scenario})
 
     @unittest.skipUnless(HARNESS, "Local test entry only")
     def test_alternate_request_host_never_leaks_into_metadata(self):
-        paths = ["/", "/reviews/", "/stoner-scores/"] + [f'/reviews/{r["slug"]}/' for r in self.reviews]
+        paths = ["/", "/reviews/", "/stoner-scores/"] + [review_path(r) for r in self.reviews]
         for path in paths:
             status, _, body = get(path + "?tracking=1", {"x-test-request-host": "alternate.example"})
             self.assertEqual(status, 200)

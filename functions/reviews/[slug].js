@@ -1,14 +1,14 @@
 import { CANONICAL_ORIGIN, reviewMetadata, withSocialMetadata } from "../../lib/social-metadata.js";
 import { onRequest as getEditorialReviews } from "../api/editorial-reviews.js";
-import { REVIEW_AUTHOR, renderReview } from "../../Deployment/test-brand-reference-cloudflare/public/review-renderer.js";
+import { REVIEW_AUTHOR, renderReview, reviewSlug } from "../../Deployment/test-brand-reference-cloudflare/public/review-renderer.js";
 
-// The unique editorial slug is the permalink key; no new table or client router.
 export async function onRequestGet(context) {
   const url = new URL(context.request.url);
   const dataResponse = await getEditorialReviews(context);
   const data = await dataResponse.json();
   const review = dataResponse.ok
-    ? data.editorial_reviews.find(review => review.slug === context.params.slug)
+    ? (data.editorial_reviews.find(review => reviewSlug(review) === context.params.slug)
+      ?? data.editorial_reviews.find(review => review.slug === context.params.slug))
     : null;
   const status = !dataResponse.ok ? 503 : review ? 200 : 404;
 
@@ -20,12 +20,12 @@ export async function onRequestGet(context) {
     return response;
   }
 
-  if (review && !url.pathname.endsWith("/")) {
-    url.pathname += "/";
+  const metadata = review ? reviewMetadata(review) : null;
+  if (metadata && url.pathname !== metadata.path) {
+    url.pathname = metadata.path;
     return Response.redirect(url, 308);
   }
 
-  const metadata = review ? reviewMetadata(review) : null;
   const title = review
     ? metadata.title
     : "Review unavailable — Stoner Reviews";
