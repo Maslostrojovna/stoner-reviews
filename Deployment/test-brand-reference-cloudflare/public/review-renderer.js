@@ -1,3 +1,5 @@
+export const REVIEW_AUTHOR = "Dani Maslo";
+
 // Shared by the Pages Function and the browser so both return the same cards.
 const dimensions = [
   ["fun", "Fun"], ["action", "Action"], ["mind_blowing", "Mind-blowing"],
@@ -96,7 +98,7 @@ export function renderReview(review, { detail = false, eager = true } = {}) {
     ${!detail && review.verdict ? `<p class="review-verdict">${escapeHTML(review.verdict)}</p>` : ""}
     ${ratings ? `<dl class="ratings">${ratings}</dl>` : ""}
     <p class="score-guide-link"><a href="/stoner-scores/">About Stoner Scores</a></p>
-    ${detail ? '<p>Published by Stoner Reviews</p>' : ""}
+    <p>Review by ${REVIEW_AUTHOR}</p>
     ${review.body_md ? (detail ? `<div class="review-body">${renderBody(review.body_md, "h2")}</div>` : `<details>
       <summary><span class="open-label">Read review</span><span class="close-label">Close review</span></summary>
       <div class="review-body">${renderBody(review.body_md)}</div>

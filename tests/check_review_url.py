@@ -77,7 +77,7 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertIn(review["verdict"], text)
         self.assertIn(review["tagline"], text)
         self.assertIn("Why watch it high?", text)
-        self.assertIn("Published by Stoner Reviews", text)
+        self.assertIn("Review by Dani Maslo", text)
         for field, label in [("overall", "Overall:"), ("fun", "Fun"),
                              ("action", "Action"), ("mind_blowing", "Mind-blowing"),
                              ("smart", "Smart"), ("feels", "Feels")]:
@@ -87,7 +87,8 @@ class ReviewURLChecks(unittest.TestCase):
         self.assertIn(("link", {"rel": "canonical", "href": "https://stoner.reviews" + PATH}), document.elements)
         self.assertEqual(sum(tag == "h1" for tag, _ in document.elements), 1)
         self.assertFalse(any(tag == "details" for tag, _ in document.elements))
-        self.assertTrue(all(attrs.get("src") == "/theme.js" or "data-theme-bootstrap" in attrs
+        self.assertTrue(all(attrs.get("src") in {"/theme.js", "/analytics.js"} or
+                            attrs.get("type") == "application/ld+json" or "data-theme-bootstrap" in attrs
                             for tag, attrs in document.elements if tag == "script"))
 
     def test_direct_request_and_reload(self):
@@ -99,7 +100,7 @@ class ReviewURLChecks(unittest.TestCase):
     def test_unknown_review_is_404(self):
         status, headers, html = get("/reviews/this-review-does-not-exist/")
         self.assertEqual(status, 404)
-        self.assertIn("Review not found", html)
+        self.assertIn("Whoa there, cowboy / cowgirl!", html)
         self.assertEqual(headers["X-Robots-Tag"], "noindex")
         self.assertFalse(any(tag == "link" and attrs.get("rel") == "canonical"
                              for tag, attrs in Document(html).elements))

@@ -1,6 +1,6 @@
-import { reviewMetadata, withSocialMetadata } from "../../lib/social-metadata.js";
+import { CANONICAL_ORIGIN, reviewMetadata, withSocialMetadata } from "../../lib/social-metadata.js";
 import { onRequest as getEditorialReviews } from "../api/editorial-reviews.js";
-import { renderReview } from "../../Deployment/test-brand-reference-cloudflare/public/review-renderer.js";
+import { REVIEW_AUTHOR, renderReview } from "../../Deployment/test-brand-reference-cloudflare/public/review-renderer.js";
 
 // The unique editorial slug is the permalink key; no new table or client router.
 export async function onRequestGet(context) {
@@ -12,6 +12,14 @@ export async function onRequestGet(context) {
     : null;
   const status = !dataResponse.ok ? 503 : review ? 200 : 404;
 
+  if (status === 404) {
+    const page = await context.env.ASSETS.fetch(new Request(new URL("/404", url)));
+    const response = new Response(page.body, { status: 404, headers: page.headers });
+    response.headers.set("X-Robots-Tag", "noindex");
+    response.headers.set("Cache-Control", "no-store");
+    return response;
+  }
+
   if (review && !url.pathname.endsWith("/")) {
     url.pathname += "/";
     return Response.redirect(url, 308);
@@ -20,11 +28,10 @@ export async function onRequestGet(context) {
   const metadata = review ? reviewMetadata(review) : null;
   const title = review
     ? metadata.title
-    : status === 404 ? "Review not found — Stoner Reviews" : "Review unavailable — Stoner Reviews";
+    : "Review unavailable — Stoner Reviews";
   const description = review
     ? metadata.description
-    : status === 404 ? "This review could not be found. Browse the movie reviews on Stoner Reviews."
-      : "This review is temporarily unavailable. Please try again shortly.";
+    : "This review is temporarily unavailable. Please try again shortly.";
 
   const template = await context.env.ASSETS.fetch(new Request(new URL("/review", url)));
   const response = new Response(template.body, { status, headers: template.headers });
@@ -32,14 +39,38 @@ export async function onRequestGet(context) {
   if (status === 503) response.headers.set("Retry-After", "60");
   if (status !== 200) response.headers.set("X-Robots-Tag", "noindex");
 
-  return withSocialMetadata(new HTMLRewriter(), metadata)
+  const rewriter = new HTMLRewriter();
+  if (review) {
+    const structuredReview = {
+      "@context": "https://schema.org",
+      "@type": "Review",
+      url: CANONICAL_ORIGIN + metadata.path,
+      itemReviewed: {
+        "@type": review.media_type === "tv" ? "TVSeries" : "Movie",
+        name: review.movie_title,
+      },
+      author: { "@type": "Person", name: REVIEW_AUTHOR },
+      publisher: { "@type": "Organization", name: "Stoner Reviews" },
+    };
+    if (Number.isInteger(review.overall) && review.overall >= 1 && review.overall <= 5) {
+      structuredReview.reviewRating = {
+        "@type": "Rating", ratingValue: review.overall, worstRating: 1, bestRating: 5,
+      };
+    }
+    const json = JSON.stringify(structuredReview).replaceAll("<", "\\u003c");
+    rewriter.on("head", { element(element) {
+      element.append(`<script type="application/ld+json">${json}</script>`, { html: true });
+    } });
+  }
+
+  return withSocialMetadata(rewriter, metadata)
     .on("title", { element(element) { if (!metadata) element.setInnerContent(title); } })
     .on('meta[name="description"]', { element(element) { if (!metadata) element.setAttribute("content", description); } })
     .on("#review", { element(element) {
       if (review) element.setInnerContent(renderReview(review, { detail: true }), { html: true });
-      else element.setInnerContent(status === 404
-        ? "<h1>Review not found</h1><p>We couldn’t find that review. Choose another from all reviews.</p>"
-        : "<h1>Review unavailable</h1><p>We couldn’t load this review. Please try again shortly.</p>", { html: true });
+      else element.setInnerContent(
+        "<h1>Review unavailable</h1><p>We couldn’t load this review. Please try again shortly.</p>", { html: true }
+      );
     } })
     .transform(response);
 }

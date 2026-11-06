@@ -16,9 +16,9 @@ const allowed = new Set([
   "icons/stoner-scores/overall-4-a-proper-treat-stoner-reviews.svg",
   "icons/stoner-scores/overall-5-peak-cinema-stoner-reviews.svg",
 
-  "_headers", "index.html", "404.html", "reviews.html", "review.html",
+  "_headers", "index.html", "404.html", "robots.txt", "privacy.html", "reviews.html", "review.html",
   "site.css", "home.css", "reviews.css", "site-nav.css", "theme.js",
-  "review-renderer.js", "reviews.js",
+  "review-renderer.js", "reviews.js", "analytics.js",
   "scores.html", "scores.css",
   "logos/stoner-reviews-v7-transparent.svg",
   "logos/stoner-reviews-wizard-teal-400.png",
