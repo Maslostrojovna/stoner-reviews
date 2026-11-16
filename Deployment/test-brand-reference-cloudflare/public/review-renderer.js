@@ -23,6 +23,7 @@ const artwork = new Map([
   ["the-wolf-of-wall-street-2013", "the-wolf-of-wall-street-2013"],
   ["predator-badlands-2025", "predator-badlands-2025"],
   ["paradise-2025", "paradise-2025"],
+  ["jodorowskys-dune-2013", "jodorowskys-dune-2013"],
 ]);
 
 function escapeHTML(value) {
