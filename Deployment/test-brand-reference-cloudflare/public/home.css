@@ -1,5 +1,7 @@
 .home-main { width: min(1120px, calc(100% - 64px)); margin-inline: auto; }
-.home-intro { display: grid; grid-template-columns: 1.05fr 1fr; align-items: end; gap: 64px; padding-block: 76px 80px; }
+/* Reserve the first screen for the introduction. The header is at least 128px
+   tall at both breakpoints; content may grow beyond this minimum when needed. */
+.home-intro { display: grid; grid-template-columns: 1.05fr 1fr; align-items: end; align-content: center; gap: 64px; min-height: calc(100vh - 128px); min-height: calc(100svh - 128px); padding-block: 76px 80px; }
 .home-intro h1 { margin: 0; max-width: 12ch; font-size: clamp(48px, 6vw, 80px); }
 .home-intro p { margin: 0; max-width: 46ch; font-size: 18px; line-height: 1.75; }
 .home-intro-copy p + p { margin-top: 18px; }
