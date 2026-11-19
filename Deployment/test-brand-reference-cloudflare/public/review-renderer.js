@@ -24,6 +24,7 @@ const artwork = new Map([
   ["predator-badlands-2025", "predator-badlands-2025"],
   ["paradise-2025", "paradise-2025"],
   ["jodorowskys-dune-2013", "jodorowskys-dune-2013"],
+  ["the-meerkats-2008", "the-meerkats-2008"],
 ]);
 
 function escapeHTML(value) {

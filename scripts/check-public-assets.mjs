@@ -55,6 +55,10 @@ const allowed = new Set([
   "posters/jodorowskys-dune-2013-stoner-reviews.webp",
   "posters/jodorowskys-dune-2013-large-stoner-reviews.webp",
   "social/jodorowskys-dune-2013-stoner-reviews.png",
+  "posters/the-meerkats-2008-thumbnail-stoner-reviews.webp",
+  "posters/the-meerkats-2008-stoner-reviews.webp",
+  "posters/the-meerkats-2008-large-stoner-reviews.webp",
+  "social/the-meerkats-2008-stoner-reviews.png",
 ]);
 const root = fileURLToPath(new URL("../Deployment/test-brand-reference-cloudflare/public/", import.meta.url));
 const actual = new Set();
