@@ -63,6 +63,28 @@ def normalize(text):
 
 
 class ReviewURLChecks(unittest.TestCase):
+    def test_social_profiles_are_in_shared_footer(self):
+        profiles = {
+            "https://www.instagram.com/thestonerreviews/": "Instagram",
+            "https://x.com/StonerReviewsX": "X",
+            "https://bsky.app/profile/stoner-reviews.bsky.social": "Bluesky",
+        }
+        for path in ("/", "/reviews/", PATH, "/stoner-scores/", "/privacy", "/missing-social-footer-check/"):
+            with self.subTest(path=path):
+                _, _, html = get(path)
+                footer = html.split('<footer class="page-footer">', 1)[1].split("</footer>", 1)[0]
+                document = Document(footer)
+                self.assertIn(("nav", {"class": "footer-social", "aria-label": "Social media"}), document.elements)
+                links = {attrs.get("href"): attrs for tag, attrs in document.elements if tag == "a"}
+                for url, name in profiles.items():
+                    self.assertIn(url, links)
+                    self.assertIn(name, links[url]["aria-label"])
+                    self.assertEqual(links[url]["target"], "_blank")
+                    self.assertIn("noopener", links[url]["rel"].split())
+                icons = [attrs for tag, attrs in document.elements if tag == "svg"]
+                self.assertEqual(len(icons), 3)
+                self.assertTrue(all(icon.get("aria-hidden") == "true" for icon in icons))
+
     def test_full_review_and_metadata_in_initial_html(self):
         api_status, _, api_body = get("/api/editorial-reviews")
         self.assertEqual(api_status, 200)

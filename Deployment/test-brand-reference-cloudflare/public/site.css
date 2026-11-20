@@ -125,4 +125,11 @@ img { max-width: 100%; height: auto; }
   cursor: pointer;
 }
 
-.page-footer { flex-wrap: wrap; }
+.page-footer { flex-wrap: wrap; align-items: center; }
+.footer-social { display: flex; align-items: center; gap: 4px; }
+.page-footer .footer-social a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--sr-accent); }
+.page-footer .footer-social a:hover, .page-footer .footer-social a:focus-visible { color: var(--sr-text); }
+.footer-social svg { display: block; flex: none; }
+@media (max-width: 600px) {
+  .footer-social { flex-basis: 100%; order: 1; }
+}
